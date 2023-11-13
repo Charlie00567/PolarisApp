@@ -8,7 +8,7 @@
 
 
     <androidx.fragment.app.FragmentContainerView
-        android:name="mx.edu.itl.polarisapp.ar.PLacesArFragment"
+        android:name="mx.edu.itl.polarisapp.ar.PlacesArFragment"
         android:id="@+id/arFragment"
         android:layout_width="414dp"
         android:layout_height="457dp"
