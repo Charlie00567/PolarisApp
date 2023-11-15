@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -46,11 +48,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private val magnometerReading    = FloatArray( 3 )
     private val rotatinMatrix        = FloatArray( 9 )
     private val orientationAngles    = FloatArray( 3 )
+
+
     //----------------------------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUp()
+
+        //AutoCompleteTextView
+        val autotextview = findViewById<AutoCompleteTextView>(R.id.actvBuscador)
+        val edificios = resources.getStringArray(R.array.edificios)
+        val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,edificios)
+        autotextview.setAdapter(adapter)
     }
     //----------------------------------------------------------------------------------------------
     override fun onResume() {
@@ -230,6 +240,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             addPlaceToMap( place )
             addPlaceToAr( place, anchorNode )
         }
+
+
     }
     //Ubica el pin en el mapa
     //----------------------------------------------------------------------------------------------
@@ -239,7 +251,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 MarkerOptions()
                     .position( place.latLng )
                     .title   ( place.name   )
+
             )
+
             marker?.apply {
                 tag = place
             }

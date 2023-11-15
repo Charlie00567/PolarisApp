@@ -1,4 +1,55 @@
 <resources>
     <string name="app_name">PolarisApp</string>
     <string name="google_api_key">AIzaSyAdI2j3PU-""Is8FZk9Ip1hQiarKynj0UIqc</string>
+    <string-array name="edificios">
+
+        <item>Edificio Administrativo - 1-A</item>
+        <item>Edificio Administrativo - 1-B</item>
+        <item>Metal - Mecánica, Aulas - 10</item>
+        <item>Lab. Ingenieria Eléctrica - 11</item>
+        <item>Lab. Quimica Cualitativa - 12</item>
+        <item>Cafeteria - 13</item>
+        <item>Quimica - Bioquimica, Lab. Quimica Inorganica, Lab. Física - Química, Aulas - 14</item>
+        <item>Aulas - 15</item>
+        <item>Lab. Química Cuantitativa - 16</item>
+        <item>Sala Garcia Siler, Centro de mejora Continua - 17</item>
+        <item>Lab. Ingenería Mecánica - A-B</item>
+        <item>Ingeniería en Sistemas Computacionalesm Aulas - 19</item>
+        <item>Gestion Tecnológica y vinculacion - 2</item>
+        <item>Lab. Ingeniría Electrónica - 20</item>
+        <item>Lab. Multifuncional Metal - Mecánica - 21</item>
+        <item>Lab. de Electrónica de Potencia, Lab. Electrónica Digital, Ciencias Básicas - 22</item>
+        <item>Sala de usos Multiples, Laboratorio CIM, Lab. Ingeniería Industrial, Comedor - CIM</item>
+        <item>Mantenimiento - 24</item>
+        <item>Lab. Ingeniería de Potencia - 25</item>
+        <item>Lab. de Máquinas Eléctricas e Instrumentación - 26</item>
+        <item>Lab. de Mecatrónica y Control - 27</item>
+        <item>Lab. de Computo - AA</item>
+        <item>Lab. de Idiomas - 29</item>
+        <item>Oficinas Sindicales - 3</item>
+        <item>Lab. de Cómputo de Posgrado - 30</item>
+        <item>División de Estudios de Posgrado e Investigación - 31</item>
+        <item>Aulas - 32</item>
+        <item>Sala de Técnicos, Laboratorio de Físicas - 33</item>
+        <item>Aulas - 34</item>
+        <item>Recuros Materiales y Servicios - 35</item>
+        <item>Ingeniria Eléctrica - Electrónia - 36</item>
+        <item>Aulas - 37</item>
+        <item>Aulas - 38</item>
+        <item>Gimnasio - 39</item>
+        <item>Ingenieria Industrial - 4</item>
+        <item>Gradas Deportivas - 40</item>
+        <item>Vestidores, Oficina Arte, Cultura, Gimnasio Pesas - 41</item>
+        <item>Gimnasio Auditorio, Actividades Extra Escolares - 42</item>
+        <item>Centro de Información - CI</item>
+        <item>Aulas - 5</item>
+        <item>Aulas - 6</item>
+        <item>Centro de Cómputo, Aulas - 7</item>
+        <item>Aulas - 8</item>
+        <item>Económico Administrativas, Aulas - 9</item>
+
+
+
+
+    </string-array>
 </resources>

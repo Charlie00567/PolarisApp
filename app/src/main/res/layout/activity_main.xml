@@ -8,24 +8,39 @@
 
 
     <androidx.fragment.app.FragmentContainerView
-        android:name="mx.edu.itl.polarisapp.ar.PlacesArFragment"
         android:id="@+id/arFragment"
-        android:layout_width="414dp"
-        android:layout_height="457dp"
+        android:name="mx.edu.itl.polarisapp.ar.PlacesArFragment"
+        android:layout_width="408dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="7" />
 
+    <AutoCompleteTextView
+        android:id="@+id/actvBuscador"
+        android:layout_width="390dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="4dp"
+        android:hint="Buscar..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="409dp"
+        android:layout_height="309dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/arFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/arFragment"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
