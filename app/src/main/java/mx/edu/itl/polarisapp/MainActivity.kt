@@ -28,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.ar.sceneform.AnchorNode
 import mx.edu.itl.polarisapp.ar.PlacesArFragment
 import mx.edu.itl.polarisapp.ar.PlaceNode
@@ -240,8 +241,21 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             addPlaceToMap( place )
             addPlaceToAr( place, anchorNode )
         }
+<<<<<<< HEAD
 
 
+=======
+            createPolylines()
+    }
+
+    //Crea las líneas para trazar una ruta
+    //..............................................................................................
+    private fun createPolylines(){
+        val polylineOptions = PolylineOptions()
+            .add(LatLng(25.533261,-103.435979))
+            .add(LatLng(25.532719, -103.435974))
+        val polyline=map?.addPolyline(polylineOptions)
+>>>>>>> master
     }
     //Ubica el pin en el mapa
     //----------------------------------------------------------------------------------------------
