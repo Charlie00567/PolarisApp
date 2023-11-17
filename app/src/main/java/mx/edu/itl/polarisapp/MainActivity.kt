@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.ar.sceneform.AnchorNode
 import mx.edu.itl.polarisapp.ar.PlacesArFragment
 import mx.edu.itl.polarisapp.ar.PlaceNode
-import mx.edu.itl.polarisapp.model.*
+import mx.edu.itl.polarisapp.model.Place
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -179,17 +179,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     //Añade lugares que se ubicaran en el mapa y en el AR
     //----------------------------------------------------------------------------------------------
     private fun addPlaces( anchorNode: AnchorNode ){
-        val nodos=listOf(
-            Nodo(LatLng(25.53330236938814, -103.4360597925742)),  // 0
-            Nodo(LatLng(25.53330236938814, -103.4360897927742)),  // 1
-            Nodo(LatLng(25.53311391782262, -103.43608912984311)), // 2
-            Nodo(LatLng(25.53299438362415, -103.43610792651859)), // 3
-            Nodo(LatLng(25.53282245843098, -103.43600638991549)), // 4
-            Nodo(LatLng(25.53282816948797, -103.43600638991549))  // 5
-        )
         val places = listOf(
-            Place( "Edificio 19"           , LatLng( 25.53330236938814,-103.4360597925742 ) ),
-            Place( "Laboratorio de Computo", LatLng( 25.53282816948797, -103.43600638991549 ) ),
+            Place( "Edificio 19"           , LatLng( 25.533261,-103.435979 ) ),
+            Place( "Laboratorio de Computo", LatLng( 25.532719, -103.435974 ) ),
 //            Place ("Edificio Administrativo - 1-A", LatLng(25.535215, -103.434899)),
 //            Place ("Edificio Administrativo - 1-B", LatLng(25.534961, -103.434885)),
 //            Place ("Metal - Mecánica, Aulas - 10", LatLng(25.534443, -103.436175)),
@@ -239,17 +231,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             addPlaceToMap( place )
             addPlaceToAr( place, anchorNode )
         }
-
-        createPolylines(nodos)
+            createPolylines()
     }
 
     //Crea las líneas para trazar una ruta
     //..............................................................................................
-    private fun createPolylines(nodos:List<Nodo>){
+    private fun createPolylines(){
         val polylineOptions = PolylineOptions()
-        nodos.forEach{nodo->
-            polylineOptions.add(nodo.latLong)
-        }
+            .add(LatLng(25.533261,-103.435979))
+            .add(LatLng(25.532719, -103.435974))
         val polyline=map?.addPolyline(polylineOptions)
     }
     //Ubica el pin en el mapa
