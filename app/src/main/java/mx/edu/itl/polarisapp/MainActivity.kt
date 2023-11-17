@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -32,7 +33,10 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.ar.sceneform.AnchorNode
 import mx.edu.itl.polarisapp.ar.PlacesArFragment
 import mx.edu.itl.polarisapp.ar.PlaceNode
+import mx.edu.itl.polarisapp.model.Edge
+import mx.edu.itl.polarisapp.model.Nodo
 import mx.edu.itl.polarisapp.model.Place
+import mx.edu.itl.polarisapp.model.findShortestPath
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -50,7 +54,50 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private val rotatinMatrix        = FloatArray( 9 )
     private val orientationAngles    = FloatArray( 3 )
 
+    // Declarar el AutoCompleteTextView como propiedad de la clase
+    private lateinit var autotextview: AutoCompleteTextView
 
+    val nodoEdificio19 = Nodo("Edificio 19", "19", LatLng(25.533261,-103.435979))
+    val nodoLabComputo = Nodo("Laboratorio de cómputo-28","28", LatLng(25.532719,-103.435974))
+    val nodoEntrada2= Nodo("Entrada 2","Entrada2", LatLng(	25.533333821199893,-103.43444237040535))
+    val comedor = Nodo("Comedor",  "comedor", LatLng(25.533067,	-103.434961))
+    val nodoConexion1 = Nodo("nodoConexion1", "1", LatLng(25.533313082045854, -103.43614827619899))
+    val nodoConexion2 = Nodo("nodoConexion2", "2", LatLng(25.533042,-103.436103))
+    val nodoConexion3 = Nodo("nodoConexion3", "3", LatLng(	25.5330,-103.4359))
+    val nodoConexion4 = Nodo("nodoConexion4", "4", LatLng(25.532879,-103.435926))
+    val nodoConexion5= Nodo("nodoConexion5", "5", LatLng(	25.533235,-103.434958))
+    val nodoConexion6= Nodo("nodoConexion6", "6", LatLng(25.533273147908876,-103.43533422576532))
+    val nodoConexion7= Nodo("nodoConexion7", "7", LatLng(25.533063,-103.435279))
+    val nodoConexion8 = Nodo("nodoConexion8", "8", LatLng(	25.53291979068679,	-103.43533154355852))
+    val nodoConexion9= Nodo("nodoConexion9", "9", LatLng(25.532879,	-103.435625))
+
+
+    val nodos = listOf(
+         nodoEdificio19, nodoLabComputo,nodoEntrada2,comedor, nodoConexion1, nodoConexion2,nodoConexion3,nodoConexion4,nodoConexion5,nodoConexion6,
+         nodoConexion7,nodoConexion8,nodoConexion9
+    )
+
+    val graph = mutableListOf(
+        Edge(nodoEdificio19,nodoConexion1,nodoEdificio19.calcularDistancia(nodoConexion1).toInt()),
+        Edge(nodoConexion1,nodoConexion2,nodoConexion1.calcularDistancia(nodoConexion2).toInt()),
+        Edge(nodoConexion2,nodoConexion3,nodoConexion2.calcularDistancia(nodoConexion3).toInt()),
+        Edge(nodoConexion3,nodoConexion4,nodoConexion3.calcularDistancia(nodoConexion4).toInt()),
+        Edge(nodoConexion4,nodoLabComputo,nodoConexion4.calcularDistancia(nodoLabComputo).toInt()),
+        Edge(nodoEntrada2,nodoConexion5,nodoEntrada2.calcularDistancia(nodoConexion5).toInt()),
+        Edge(nodoConexion5,nodoConexion6,nodoConexion5.calcularDistancia(nodoConexion6).toInt()),
+        Edge(nodoConexion6,nodoConexion7,nodoConexion6.calcularDistancia(nodoConexion7).toInt()),
+        Edge(nodoConexion7,nodoConexion8,nodoConexion7.calcularDistancia(nodoConexion8).toInt()),
+        Edge(nodoConexion8,nodoConexion9,nodoConexion8.calcularDistancia(nodoConexion9).toInt()),
+        Edge(nodoConexion9,nodoConexion4,nodoConexion9.calcularDistancia(nodoConexion4).toInt()),
+
+        Edge(nodoConexion4,nodoConexion3,nodoConexion4.calcularDistancia(nodoConexion3).toInt()),
+        Edge(nodoConexion3,nodoConexion2,nodoConexion3.calcularDistancia(nodoConexion2).toInt()),
+        Edge(nodoConexion2,nodoConexion1,nodoConexion2.calcularDistancia(nodoConexion1).toInt()),
+        Edge(nodoConexion1,nodoEdificio19,nodoConexion1.calcularDistancia(nodoEdificio19).toInt()),
+    )
+    val result = findShortestPath(graph,nodoEntrada2,nodoEdificio19)
+
+    private var textoSeleccionado: String? = null
     //----------------------------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +105,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         setUp()
 
         //AutoCompleteTextView
-        val autotextview = findViewById<AutoCompleteTextView>(R.id.actvBuscador)
+        autotextview = findViewById<AutoCompleteTextView>(R.id.actvBuscador)
         val edificios = resources.getStringArray(R.array.edificios)
         val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,edificios)
         autotextview.setAdapter(adapter)
+        //Toast.makeText(this,"result.shortesPath(): "+ result.shortestPath().get(1).toString(), Toast.LENGTH_SHORT).show()
+
+
+        autotextview.setOnItemClickListener { _, _, position, _ ->
+            // Obtener el texto seleccionado
+            textoSeleccionado = adapter.getItem(position).toString()
+            Toast.makeText(applicationContext, "Texto seleccionado: $textoSeleccionado", Toast.LENGTH_SHORT).show()
+            if(textoSeleccionado.equals("")){
+                textoSeleccionado= autotextview.text.toString()
+            }
+            //origenDestino(textoSeleccionado!!)
+        }
+       // Toast.makeText(this,"result.shortestDistance(): "+ result.shortestDistance(),Toast.LENGTH_LONG)
     }
     //----------------------------------------------------------------------------------------------
     override fun onResume() {
@@ -192,6 +252,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val places = listOf(
             Place( "Edificio 19"           , LatLng( 25.533261,-103.435979 ) ),
             Place( "Laboratorio de Computo", LatLng( 25.532719, -103.435974 ) ),
+            Place("Entrada 2", LatLng(nodoEntrada2.getLat(),nodoEntrada2.getLong())),
 //            Place ("Edificio Administrativo - 1-A", LatLng(25.535215, -103.434899)),
 //            Place ("Edificio Administrativo - 1-B", LatLng(25.534961, -103.434885)),
 //            Place ("Metal - Mecánica, Aulas - 10", LatLng(25.534443, -103.436175)),
@@ -241,21 +302,51 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             addPlaceToMap( place )
             addPlaceToAr( place, anchorNode )
         }
-<<<<<<< HEAD
+        createPolylines(result.shortestPath())
 
-
-=======
-            createPolylines()
     }
+    //Método que comienza la ruta
+    private fun comenzarRuta(view: View){
+        val ubicacionActualLat = curretLocation!!.latitude
+        val ubicacionActualLong = curretLocation!!.longitude
+        val nodoUbicacionActual= Nodo("ubicacionActual", "ubi",LatLng(ubicacionActualLat,ubicacionActualLong))
+        for( nodo in nodos ){
+            val distancia= nodoUbicacionActual.calcularDistancia(nodo);
+            if (distancia<30){
+                graph.add(Edge(nodoUbicacionActual,nodo,nodoUbicacionActual.calcularDistancia(nodo).toInt()))
+            }
+        }
+        //Origen es la ubicacion actual
+        val result = findShortestPath(graph,nodoUbicacionActual,origenDestino(textoSeleccionado!!)!!)
+//        if(!textoSeleccionado.equals("mi ubicacion")){
+            //Origen diferente a la ubicacion actual
+            //val result = findShortestPath(graph,nodoUbicacionActual,origenDestino(textoSeleccionado!!)!!)
+        //}
 
+
+
+
+        createPolylines(result.shortestPath())
+
+
+    }
+    //Metodo para seleccionar el nodo destino desde el orgien
+    private fun origenDestino(destino:String): Nodo ?{
+        for (nodo in nodos)
+        if (destino.equals(nodo.nombre)){
+            return nodo
+        }
+        return null
+
+    }
     //Crea las líneas para trazar una ruta
     //..............................................................................................
-    private fun createPolylines(){
+    private fun createPolylines(nodos:List<Nodo>){
         val polylineOptions = PolylineOptions()
-            .add(LatLng(25.533261,-103.435979))
-            .add(LatLng(25.532719, -103.435974))
+        nodos.forEach{nodo->
+            polylineOptions.add(nodo.coords)
+        }
         val polyline=map?.addPolyline(polylineOptions)
->>>>>>> master
     }
     //Ubica el pin en el mapa
     //----------------------------------------------------------------------------------------------
