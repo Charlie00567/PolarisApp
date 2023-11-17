@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var autotextview: AutoCompleteTextView
 
     val nodoEdificio19 = Nodo("Edificio 19", "19", LatLng(25.533261,-103.435979))
-    val nodoLabComputo = Nodo("Laboratorio de cómputo-28","28", LatLng(25.532719,-103.435974))
+    val nodoLabComputo = Nodo("Lab. de Computo - AA","28", LatLng(25.532719,-103.435974))
     val nodoEntrada2= Nodo("Entrada 2","Entrada2", LatLng(	25.533333821199893,-103.43444237040535))
     val comedor = Nodo("Comedor",  "comedor", LatLng(25.533067,	-103.434961))
     val nodoConexion1 = Nodo("nodoConexion1", "1", LatLng(25.533313082045854, -103.43614827619899))
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         Edge(nodoConexion2,nodoConexion1,nodoConexion2.calcularDistancia(nodoConexion1).toInt()),
         Edge(nodoConexion1,nodoEdificio19,nodoConexion1.calcularDistancia(nodoEdificio19).toInt()),
     )
-    val result = findShortestPath(graph,nodoEntrada2,nodoEdificio19)
+   // val result = findShortestPath(graph,nodoEntrada2,nodoEdificio19)
 
     private var textoSeleccionado: String? = null
     //----------------------------------------------------------------------------------------------
@@ -302,22 +302,28 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             addPlaceToMap( place )
             addPlaceToAr( place, anchorNode )
         }
-        createPolylines(result.shortestPath())
+        //createPolylines(result.shortestPath())
 
     }
     //Método que comienza la ruta
-    private fun comenzarRuta(view: View){
+    private fun comenzarRuta(){
+        var i = 0
         val ubicacionActualLat = curretLocation!!.latitude
         val ubicacionActualLong = curretLocation!!.longitude
         val nodoUbicacionActual= Nodo("ubicacionActual", "ubi",LatLng(ubicacionActualLat,ubicacionActualLong))
         for( nodo in nodos ){
+            i++
+            Toast.makeText(this,"tam: "+nodos.size,Toast.LENGTH_SHORT)
             val distancia= nodoUbicacionActual.calcularDistancia(nodo);
-            if (distancia<30){
+            Toast.makeText(this,"vuelta:"+i+"distancia = " + distancia, Toast.LENGTH_SHORT).show()
+            if (distancia<){
                 graph.add(Edge(nodoUbicacionActual,nodo,nodoUbicacionActual.calcularDistancia(nodo).toInt()))
             }
         }
         //Origen es la ubicacion actual
-        val result = findShortestPath(graph,nodoUbicacionActual,origenDestino(textoSeleccionado!!)!!)
+        val result = findShortestPath(graph,nodoUbicacionActual,
+            origenDestino(textoSeleccionado!!)!!
+        )
 //        if(!textoSeleccionado.equals("mi ubicacion")){
             //Origen diferente a la ubicacion actual
             //val result = findShortestPath(graph,nodoUbicacionActual,origenDestino(textoSeleccionado!!)!!)
@@ -338,6 +344,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
         return null
 
+    }
+
+    //Boton que manda a llamar el metodo de crear ruta
+    public fun btnComenzarRuta(view:View){
+        comenzarRuta();
     }
     //Crea las líneas para trazar una ruta
     //..............................................................................................
