@@ -1,3 +1,7 @@
+/***************************************************************************************************
+                  PlaceNode.kt Última modificación: 18/Noviembre/2023
+***************************************************************************************************/
+
 package mx.edu.itl.polarisapp.ar
 
 import android.content.Context
@@ -7,13 +11,16 @@ import com.google.ar.sceneform.rendering.ViewRenderable
 import mx.edu.itl.polarisapp.R
 import mx.edu.itl.polarisapp.model.Place
 
-class PlaceNode(val context : Context,
-                val place   : Place   ): Node()
+class PlaceNode( val context : Context,
+                 val place   : Place ) : Node ()
 {
+
     private var placeRenderable: ViewRenderable?    = null
     private var tvPlaceName    : AppCompatTextView? = null
 
-    override fun onActivate() {
+    //----------------------------------------------------------------------------------------------
+
+    override fun onActivate () {
         super.onActivate()
         scene ?: return
         if( placeRenderable != null ){ return }
@@ -28,4 +35,7 @@ class PlaceNode(val context : Context,
                 tvPlaceName?.text = place.name
             }
     }
+
+    //----------------------------------------------------------------------------------------------
+
 }
