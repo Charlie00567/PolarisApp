@@ -58,7 +58,7 @@ class Nodo(var nombre:String, var id:String, var coords: LatLng){
         //Fórmula Haversina
         val a = sin(dlat / 2).pow(2) + cos(latNodo1Rad) * cos(latNodo2Rad) * sin(dlong / 2).pow(2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        val distancia = radioTierra * c
+        val distancia = (radioTierra * c)*100
 
         return distancia
 

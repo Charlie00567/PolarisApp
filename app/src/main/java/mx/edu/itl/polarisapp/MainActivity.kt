@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     val comedor = Nodo("Comedor",  "comedor", LatLng(25.533067,	-103.434961))
     val nodoConexion1 = Nodo("nodoConexion1", "1", LatLng(25.533313082045854, -103.43614827619899))
     val nodoConexion2 = Nodo("nodoConexion2", "2", LatLng(25.533042,-103.436103))
-    val nodoConexion3 = Nodo("nodoConexion3", "3", LatLng(	25.5330,-103.4359))
+    val nodoConexion3 = Nodo("nodoConexion3", "3", LatLng(	25.532858,-103.436145))
     val nodoConexion4 = Nodo("nodoConexion4", "4", LatLng(25.532879,-103.435926))
     val nodoConexion5= Nodo("nodoConexion5", "5", LatLng(	25.533235,-103.434958))
     val nodoConexion6= Nodo("nodoConexion6", "6", LatLng(25.533273147908876,-103.43533422576532))
@@ -72,28 +72,45 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     val nodoConexion9= Nodo("nodoConexion9", "9", LatLng(25.532879,	-103.435625))
 
 
-    val nodos = listOf(
-         nodoEdificio19, nodoLabComputo,nodoEntrada2,comedor, nodoConexion1, nodoConexion2,nodoConexion3,nodoConexion4,nodoConexion5,nodoConexion6,
-         nodoConexion7,nodoConexion8,nodoConexion9
+    val nodosLugares = listOf(
+         nodoEdificio19, nodoLabComputo,nodoEntrada2,comedor
+    )
+    val nodosConexiones = listOf(
+        nodoConexion1, nodoConexion2,nodoConexion3,nodoConexion4,nodoConexion5,nodoConexion6,
+        nodoConexion7,nodoConexion8,nodoConexion9
     )
 
     val graph = mutableListOf(
-        Edge(nodoEdificio19,nodoConexion1,nodoEdificio19.calcularDistancia(nodoConexion1).toInt()),
-        Edge(nodoConexion1,nodoConexion2,nodoConexion1.calcularDistancia(nodoConexion2).toInt()),
-        Edge(nodoConexion2,nodoConexion3,nodoConexion2.calcularDistancia(nodoConexion3).toInt()),
-        Edge(nodoConexion3,nodoConexion4,nodoConexion3.calcularDistancia(nodoConexion4).toInt()),
-        Edge(nodoConexion4,nodoLabComputo,nodoConexion4.calcularDistancia(nodoLabComputo).toInt()),
-        Edge(nodoEntrada2,nodoConexion5,nodoEntrada2.calcularDistancia(nodoConexion5).toInt()),
-        Edge(nodoConexion5,nodoConexion6,nodoConexion5.calcularDistancia(nodoConexion6).toInt()),
-        Edge(nodoConexion6,nodoConexion7,nodoConexion6.calcularDistancia(nodoConexion7).toInt()),
-        Edge(nodoConexion7,nodoConexion8,nodoConexion7.calcularDistancia(nodoConexion8).toInt()),
-        Edge(nodoConexion8,nodoConexion9,nodoConexion8.calcularDistancia(nodoConexion9).toInt()),
-        Edge(nodoConexion9,nodoConexion4,nodoConexion9.calcularDistancia(nodoConexion4).toInt()),
+        Edge ( nodoEdificio19, nodoConexion1, nodoEdificio19.calcularDistancia ( nodoConexion1 ).toInt () ),
+        Edge ( nodoConexion1, nodoEdificio19, nodoConexion1.calcularDistancia ( nodoEdificio19 ).toInt () ),
+        Edge ( nodoConexion1, nodoConexion2, nodoConexion1.calcularDistancia ( nodoConexion2 ).toInt () ),
+        Edge ( nodoConexion2, nodoConexion1, nodoConexion2.calcularDistancia ( nodoConexion1 ).toInt () ),
+        Edge ( nodoConexion2, nodoConexion3, nodoConexion2.calcularDistancia ( nodoConexion3 ).toInt () ),
+        Edge ( nodoConexion3, nodoConexion2, nodoConexion3.calcularDistancia ( nodoConexion2 ).toInt () ),
+        Edge ( nodoConexion3, nodoConexion4, nodoConexion3.calcularDistancia ( nodoConexion4 ).toInt () ),
+        Edge ( nodoConexion4, nodoConexion3, nodoConexion4.calcularDistancia ( nodoConexion3 ).toInt () ),
+        Edge ( nodoConexion4, nodoLabComputo, nodoConexion4.calcularDistancia ( nodoLabComputo ).toInt () ),
+        Edge ( nodoLabComputo, nodoConexion4, nodoLabComputo.calcularDistancia ( nodoConexion4 ).toInt () ),
+        Edge ( nodoEntrada2, nodoConexion5, nodoEntrada2.calcularDistancia ( nodoConexion5 ).toInt () ),
+        Edge ( nodoConexion5, nodoEntrada2, nodoConexion5.calcularDistancia ( nodoEntrada2 ).toInt () ),
 
-        Edge(nodoConexion4,nodoConexion3,nodoConexion4.calcularDistancia(nodoConexion3).toInt()),
-        Edge(nodoConexion3,nodoConexion2,nodoConexion3.calcularDistancia(nodoConexion2).toInt()),
-        Edge(nodoConexion2,nodoConexion1,nodoConexion2.calcularDistancia(nodoConexion1).toInt()),
-        Edge(nodoConexion1,nodoEdificio19,nodoConexion1.calcularDistancia(nodoEdificio19).toInt()),
+        Edge ( nodoConexion5, nodoConexion6, nodoConexion5.calcularDistancia ( nodoConexion6 ).toInt () ),
+        Edge ( nodoConexion6, nodoConexion7, nodoConexion6.calcularDistancia ( nodoConexion7 ).toInt () ),
+        Edge ( nodoConexion7, nodoConexion8, nodoConexion7.calcularDistancia ( nodoConexion8 ).toInt () ),
+        Edge ( nodoConexion8, nodoConexion9, nodoConexion8.calcularDistancia ( nodoConexion9 ).toInt () ),
+        Edge ( nodoConexion9, nodoConexion4, nodoConexion9.calcularDistancia ( nodoConexion4 ).toInt () ),
+
+        Edge(nodoConexion6, nodoConexion5, nodoConexion6.calcularDistancia(nodoConexion5).toInt()),
+        Edge(nodoConexion7, nodoConexion6, nodoConexion7.calcularDistancia(nodoConexion6).toInt()),
+        Edge(nodoConexion8, nodoConexion7, nodoConexion8.calcularDistancia(nodoConexion7).toInt()),
+        Edge(nodoConexion9, nodoConexion8, nodoConexion9.calcularDistancia(nodoConexion8).toInt()),
+        Edge(nodoConexion4, nodoConexion9, nodoConexion4.calcularDistancia(nodoConexion9).toInt())
+
+
+
+
+
+
     )
    // val result = findShortestPath(graph,nodoEntrada2,nodoEdificio19)
 
@@ -311,12 +328,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val ubicacionActualLat = curretLocation!!.latitude
         val ubicacionActualLong = curretLocation!!.longitude
         val nodoUbicacionActual= Nodo("ubicacionActual", "ubi",LatLng(ubicacionActualLat,ubicacionActualLong))
-        for( nodo in nodos ){
+        for( nodo in nodosConexiones ){
             i++
-            Toast.makeText(this,"tam: "+nodos.size,Toast.LENGTH_SHORT)
+            Toast.makeText(this,"tam: "+nodosConexiones.size,Toast.LENGTH_SHORT).show()
             val distancia= nodoUbicacionActual.calcularDistancia(nodo);
             Toast.makeText(this,"vuelta:"+i+"distancia = " + distancia, Toast.LENGTH_SHORT).show()
-            if (distancia<){
+            if (distancia<5){
                 graph.add(Edge(nodoUbicacionActual,nodo,nodoUbicacionActual.calcularDistancia(nodo).toInt()))
             }
         }
@@ -338,7 +355,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
     //Metodo para seleccionar el nodo destino desde el orgien
     private fun origenDestino(destino:String): Nodo ?{
-        for (nodo in nodos)
+        for (nodo in nodosLugares)
         if (destino.equals(nodo.nombre)){
             return nodo
         }
