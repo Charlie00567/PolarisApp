@@ -1,11 +1,14 @@
+/***************************************************************************************************
+                        Nodo.kt Última modificación: 18/Noviembre/2023
+ ***************************************************************************************************/
+
 package mx.edu.itl.polarisapp.model
 
 import com.google.android.gms.maps.model.LatLng
 import kotlin.math.*
 
+class Nodo ( var nombre : String, var id : String, var coords : LatLng ) {
 
-
-class Nodo(var nombre:String, var id:String, var coords: LatLng){
 //    var nombre:String = ""
 //    var id:String=""
 //    var coords : LatLng = LatLng(0.0,0.0)
@@ -26,16 +29,26 @@ class Nodo(var nombre:String, var id:String, var coords: LatLng){
 //        id= value
 //    }
 //
+
+    //----------------------------------------------------------------------------------------------
+
     fun getLat():Double{
         return coords.latitude
     }
+
+    //----------------------------------------------------------------------------------------------
+
     override fun toString():String{
         return "El nodo es: "+ this.nombre
     }
 
+    //----------------------------------------------------------------------------------------------
+
     fun getLong():Double{
         return coords.longitude
     }
+
+    //----------------------------------------------------------------------------------------------
 
     fun calcularDistancia(nodo1:Nodo):Double{
         val radioTierra= 6371
@@ -58,17 +71,21 @@ class Nodo(var nombre:String, var id:String, var coords: LatLng){
         //Fórmula Haversina
         val a = sin(dlat / 2).pow(2) + cos(latNodo1Rad) * cos(latNodo2Rad) * sin(dlong / 2).pow(2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
         val distancia = (radioTierra * c)*100
 
+        val distancia = (radioTierra * c) * 1000
+
+
         return distancia
-
-
-
-
-
     }
-    fun calcularRuta():Nodo{
+
+    //----------------------------------------------------------------------------------------------
+
+    fun calcularRuta () : Nodo {
         return this
     }
+
+    //----------------------------------------------------------------------------------------------
 
 }
