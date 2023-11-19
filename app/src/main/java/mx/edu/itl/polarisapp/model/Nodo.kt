@@ -74,7 +74,7 @@ class Nodo ( var nombre : String, var id : String, var coords : LatLng ) {
 
         val distancia = (radioTierra * c)*100
 
-        val distancia = (radioTierra * c) * 1000
+
 
 
         return distancia
