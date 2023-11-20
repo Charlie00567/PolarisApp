@@ -13,13 +13,12 @@
         <item>Aulas - 15</item>
         <item>Lab. Química Cuantitativa - 16</item>
         <item>Sala Garcia Siler, Centro de mejora Continua - 17</item>
-        <item>Lab. Ingenería Mecánica - A-B</item>
-        <item>Ingeniería en Sistemas Computacionalesm Aulas - 19</item>
+        <item>Lab. Ingenería Mecánica 18 - A-B</item>
+        <item>Edificio-19</item>
         <item>Gestion Tecnológica y vinculacion - 2</item>
         <item>Lab. Ingeniría Electrónica - 20</item>
         <item>Lab. Multifuncional Metal - Mecánica - 21</item>
         <item>Lab. de Electrónica de Potencia, Lab. Electrónica Digital, Ciencias Básicas - 22</item>
-        <item>Sala de usos Multiples, Laboratorio CIM, Lab. Ingeniería Industrial, Comedor - CIM</item>
         <item>Mantenimiento - 24</item>
         <item>Lab. Ingeniería de Potencia - 25</item>
         <item>Lab. de Máquinas Eléctricas e Instrumentación - 26</item>
@@ -49,6 +48,16 @@
         <item>Centro de Cómputo, Aulas - 7</item>
         <item>Aulas - 8</item>
         <item>Económico Administrativas, Aulas - 9</item>
+        <item>Entrada 2</item>
+        <item>Comedor</item>
+        <item>Sala de usos Multiples</item>
+        <item>Laboratorio CIM</item>
+        <item>Lab. Ingeniería Industrial</item>
+        <item>Alberca</item>
+        <item>Cancha Basket principal</item>
+        <item>Atletismo</item>
+        <item>Kiosco</item>
+        <item>Cancha Basketball 2</item>
 
 
     </string-array>
