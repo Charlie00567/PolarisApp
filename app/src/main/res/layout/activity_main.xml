@@ -19,12 +19,23 @@
         app:layout_constraintVertical_weight="7" />
 
     <AutoCompleteTextView
+        android:id="@+id/actvBuscador2"
+        android:layout_width="355dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/fondo_redondo"
+        android:hint="¿A donde quieres ir?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
         android:id="@+id/actvBuscador"
         android:layout_width="355dp"
         android:layout_height="56dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/fondo_redondo"
-        android:hint="Buscar..."
+        android:hint="¿De donde partes?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
