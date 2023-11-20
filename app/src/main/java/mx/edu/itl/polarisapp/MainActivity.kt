@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     val nodoEntrada2= Nodo("Entrada 2","Entrada2", LatLng(	25.533333821199893,-103.43444237040535))
     val nodoComedor = Nodo("Comedor",  "comedor", LatLng(25.533219280160807,	-103.43511679921747))
     val nodoBiblioteca = Nodo("Biblioteca", "Biblioteca", LatLng(25.529213,-103.436087))
-    val nodoGimnasio = Nodo("Gimnasio", "Gimnasio", LatLng(25.529929, -103.435744))
+    val nodoGimnasio = Nodo("Gimnasio - 39", "Gimnasio - 39", LatLng(25.529929, -103.435744))
     val nodoBeis = Nodo("Campo de béisbol", "Campo de béisbol", LatLng(25.53036002559007, -103.43689683545992))
     val nodoAlberca = Nodo("Alberca", "Alberca", LatLng(25.530839, -103.435798))
     val nodoBasket1 = Nodo("Cancha Basket principal", "Cancha basket 1", LatLng(25.531333990585452, -103.43580869675066))
@@ -131,7 +131,8 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     val nodoOfiSind = Nodo("Oficinas Sindicales - 3", "Oficinas Sindicales - 3", LatLng(25.534959764571383, -103.4352870678047))
     val nodo1A = Nodo("Edificio Administrativo - 1-A", "Edificio Administrativo - 1-A", LatLng(25.535263407923832, -103.43493301088326))
     val nodo1B = Nodo("Edificio Administrativo - 1-B", "Edificio Administrativo - 1-B", LatLng(25.53503171804417, -103.43492344177734))
-
+    val nodoGradas = Nodo("Gradas Deportivas - 40", "Gradas Deportivas - 40", LatLng(25.531071379189395, -103.436014455191))
+    val nodoEntrada1 = Nodo("Entrada 1", "Entrada 1", LatLng(25.534805062421828, -103.43446882713646))
     //Nodos de conexiones
     val nodoConexion1 = Nodo("nodoConexion1", "1", LatLng(25.533313082045854, -103.43614827619899))
     val nodoConexion2 = Nodo("nodoConexion2", "2", LatLng(25.533042,-103.436103))
@@ -240,6 +241,8 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     val nodoConexion105 = Nodo("nodoConexion105", "nodoConexion105", LatLng(25.534913714328027, -103.43529025750668))
     val nodoConexion106 = Nodo("nodoConexion106", "nodoConexion106", LatLng(25.535188576458836, -103.43539073311635))
     val nodoConexion107 = Nodo("nodoConexion107", "nodoConexion107", LatLng(25.535161234181125, -103.43491068296944))
+    val nodoConexion108 = Nodo("nodoConexion108", "nodoConexion108", LatLng(25.535149227453086, -103.43470468191262))
+    val nodoConexion109 = Nodo("nodoConexion109", "nodoConexion109", LatLng(25.53481836350876, -103.43469731145086))
 
     val nodosLugares = listOf(
          nodoEdificio19, nodoLabComputo,nodoEntrada2,nodoComedor
@@ -649,6 +652,16 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         Edge(nodo1A, nodoConexion107, nodo1A.calcularDistancia(nodoConexion107).toInt()),
         Edge(nodoConexion107, nodo1B, nodoConexion107.calcularDistancia(nodo1B).toInt()),
         Edge(nodo1B, nodoConexion107, nodo1B.calcularDistancia(nodoConexion107).toInt()),
+        Edge(nodoConexion15, nodoGradas, nodoConexion15.calcularDistancia(nodoGradas).toInt()),
+        Edge(nodoGradas, nodoConexion15, nodoGradas.calcularDistancia(nodoConexion15).toInt()),
+        Edge(nodoConexion107, nodoConexion108, nodoConexion107.calcularDistancia(nodoConexion108).toInt()),
+        Edge(nodoConexion108, nodoConexion107, nodoConexion108.calcularDistancia(nodoConexion107).toInt()),
+        Edge(nodoConexion108, nodoConexion109, nodoConexion108.calcularDistancia(nodoConexion109).toInt()),
+        Edge(nodoConexion109, nodoConexion108, nodoConexion109.calcularDistancia(nodoConexion108).toInt()),
+        Edge(nodoConexion98, nodoConexion109, nodoConexion98.calcularDistancia(nodoConexion109).toInt()),
+        Edge(nodoConexion109, nodoConexion98, nodoConexion109.calcularDistancia(nodoConexion98).toInt()),
+        Edge(nodoConexion109, nodoEntrada1, nodoConexion109.calcularDistancia(nodoEntrada1).toInt()),
+        Edge(nodoEntrada1, nodoConexion109, nodoEntrada1.calcularDistancia(nodoConexion109).toInt()),
         )
 
 
@@ -957,6 +970,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
                 MarkerOptions()
                     .position( place.latLng )
                     .title   ( place.name   )
+
 
             )
 

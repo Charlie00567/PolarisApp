@@ -15,7 +15,7 @@
         <item>Sala Garcia Siler, Centro de mejora Continua - 17</item>
         <item>Lab. Ingenería Mecánica 18 - A-B</item>
         <item>Edificio-19</item>
-        <item>Gestion Tecnológica y vinculacion - 2</item>
+<!--        <item>Gestion Tecnológica y vinculacion - 2</item> -->
         <item>Lab. Ingeniría Electrónica - 20</item>
         <item>Lab. Multifuncional Metal - Mecánica - 21</item>
         <item>Lab. de Electrónica de Potencia, Lab. Electrónica Digital, Ciencias Básicas - 22</item>
@@ -38,8 +38,6 @@
         <item>Gimnasio - 39</item>
         <item>Ingenieria Industrial - 4</item>
         <item>Gradas Deportivas - 40</item>
-        <item>Vestidores, Oficina Arte, Cultura, Gimnasio Pesas - 41</item>
-        <item>Gimnasio</item>
         <item>Biblioteca</item>
         <item>Campo de béisbol</item>
         <item>Campo de fútbol</item>
@@ -58,6 +56,7 @@
         <item>Atletismo</item>
         <item>Kiosco</item>
         <item>Cancha Basketball 2</item>
+        <item>Entrada 1</item>
 
 
     </string-array>
