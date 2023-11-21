@@ -22,9 +22,9 @@
         android:id="@+id/actvBuscador2"
         android:layout_width="355dp"
         android:layout_height="56dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/fondo_redondo"
-        android:hint="¿A donde quieres ir?"
+        android:hint="   ¿A donde quieres ir?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
         android:layout_height="56dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/fondo_redondo"
-        android:hint="¿De donde partes?"
+        android:hint="   ¿De donde partes?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -69,6 +69,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="36dp"
         app:srcCompat="@drawable/logo" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEventos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:onClick="fabEventos"
+        android:src="@drawable/eventos"
+        android:visibility="invisible"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/fabPrincipal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="36dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCrearRuta"

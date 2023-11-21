@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
 
         // Aqui se hace el intento de cargar la animación del gif
         try {
-            movGif = GifDrawable( resources, R.drawable.logo )
+            movGif = GifDrawable( resources, R.drawable.logo_carga )
             gifSplash.setImageDrawable( movGif )
             movGif.start()
         } catch ( e: Exception ) {

@@ -6,6 +6,7 @@ package mx.edu.itl.polarisapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -22,6 +23,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -30,19 +32,23 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.rendering.ViewRenderable
 import mx.edu.itl.polarisapp.ar.PlaceNode
 import mx.edu.itl.polarisapp.ar.PlacesArFragment
 import mx.edu.itl.polarisapp.model.Edge
 import mx.edu.itl.polarisapp.model.Nodo
 import mx.edu.itl.polarisapp.model.Place
 import mx.edu.itl.polarisapp.model.findShortestPath
+import com.google.ar.sceneform.Node
 
 class MainActivity : AppCompatActivity (), SensorEventListener {
 
@@ -59,6 +65,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     private lateinit var fabPrincipal : FloatingActionButton
     private lateinit var fabSalir : FloatingActionButton
     private lateinit var fabCrearRuta : FloatingActionButton
+    private lateinit var fabEventos : FloatingActionButton
 
     private lateinit var animAbrir : Animation
     private lateinit var animCerrar : Animation
@@ -693,15 +700,17 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     private var textoSeleccionadoOrigen : String? = null
     private var textoSeleccionadoDestino : String? = null
+    private var nombreMarcador : String ? =null
     //----------------------------------------------------------------------------------------------
 
     override fun onCreate( savedInstanceState: Bundle? ) {
         super.onCreate( savedInstanceState )
         setContentView( R.layout.activity_main )
 
-        fabPrincipal = findViewById<FloatingActionButton>( R.id.fabPrincipal )
-        fabSalir = findViewById<FloatingActionButton>( R.id.fabSalir )
-        fabCrearRuta = findViewById<FloatingActionButton>( R.id.fabCrearRuta )
+        fabPrincipal = findViewById<FloatingActionButton> ( R.id.fabPrincipal )
+        fabSalir = findViewById<FloatingActionButton> ( R.id.fabSalir )
+        fabCrearRuta = findViewById<FloatingActionButton> ( R.id.fabCrearRuta )
+        fabEventos = findViewById<FloatingActionButton> ( R.id.fabEventos )
 
         // Especificamos que animaciones se van a cargar con cada variable
         animAbrir = AnimationUtils.loadAnimation( this, R.anim.fab_open )
@@ -711,7 +720,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
         setUp()
 
-        //AutoCompleteTextView
+        //AutoCompleteTextView Buscadores para el logar de origen y destino
         autotextviewOrigen = findViewById<AutoCompleteTextView> ( R.id.actvBuscador )
         autotextviewDestino = findViewById<AutoCompleteTextView> ( R.id.actvBuscador2 )
         val edificiosOrigen = resources.getStringArray ( R.array.edificiosOrigen )
@@ -744,7 +753,9 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             Toast.makeText( applicationContext, "Te diriges a: $textoSeleccionadoDestino", Toast.LENGTH_SHORT ).show()
 
 
+
         }
+
 
     }
 
@@ -846,6 +857,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             }
 
         }
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -997,17 +1009,17 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Metodo para seleccionar el nodo destino
 
-    private fun destino(destino:String): Nodo ? {
-        for (nodo in nodosLugares)
-            if (destino.equals(nodo.nombre)) {
+    private fun destino ( destino:String ): Nodo ? {
+        for ( nodo in nodosLugares )
+            if ( destino.equals ( nodo.nombre ) ) {
                 return nodo
             }
         return null
     }
     //Metodo para seleccionar el nodo origen
-    private fun origen(origen:String): Nodo ? {
-        for (nodo in nodosLugares)
-            if (origen.equals(nodo.nombre)) {
+    private fun origen ( origen:String ): Nodo ? {
+        for ( nodo in nodosLugares )
+            if ( origen.equals ( nodo.nombre ) ) {
                 return nodo
             }
         return null
@@ -1018,10 +1030,15 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Crea las líneas para trazar una ruta
     private fun createPolylines ( nodos : List<Nodo> ){
+        map?.clear()
+        map?.addMarker(MarkerOptions().position(nodos.get(0).coords).title(nodos.get(0).nombre))
+        map?.addMarker(MarkerOptions().position(nodos.get(nodos.size-1).coords).title(nodos.get(nodos.size-1).nombre))
+
         val polylineOptions = PolylineOptions()
         nodos.forEach { nodo ->
             polylineOptions.add( nodo.coords )
         }
+
         val polyline = map?.addPolyline( polylineOptions )
     }
 
@@ -1042,6 +1059,15 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
                 tag = place
             }
         }
+        map?.setOnMarkerClickListener ( GoogleMap.OnMarkerClickListener { marker:Marker->
+            nombreMarcador = marker.title
+            autotextviewDestino.setText ( nombreMarcador )
+            marker.showInfoWindow ()
+            //Metodo para dirigir la camara al lugar elegido
+            map?.moveCamera( CameraUpdateFactory.newLatLngZoom ( marker.position,18f ) )
+            true
+        })
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -1051,8 +1077,8 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         val placeNode = PlaceNode( this, place )
         placeNode.setParent( anchorNode )
         curretLocation?.let{
-            val latLng = LatLng( it.latitude, it.longitude )
-            placeNode.localPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )
+            val latLng = LatLng( it.latitude, it.longitude ) //Probar con posicion de place
+            placeNode.localPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )//Probar con world position
 
         }
     }
@@ -1081,18 +1107,28 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             fabPrincipal.startAnimation( girarAtras )
             fabSalir.startAnimation( animCerrar )
             fabCrearRuta.startAnimation( animCerrar )
+            fabEventos.startAnimation( animCerrar )
             fabSalir.setClickable( false )
             fabCrearRuta.setClickable( false )
+            fabEventos.setClickable ( false )
             isOpen = false
         } else {
             fabPrincipal.startAnimation( girarAdelante )
             fabSalir.startAnimation( animAbrir )
             fabCrearRuta.startAnimation( animAbrir )
+            fabEventos.startAnimation ( animAbrir )
+            fabEventos.setClickable ( true )
             fabSalir.setClickable( true )
             fabCrearRuta.setClickable( true )
             isOpen = true
         }
     }
+    //----------------------------------------------------------------------------------------------
+    //Metodo para abrir el menu de los eventos
+    fun fabEventos ( view: View ){
+
+    }
+
 
     //----------------------------------------------------------------------------------------------
 
