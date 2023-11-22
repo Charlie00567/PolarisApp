@@ -1,31 +1,45 @@
 package mx.edu.itl.polarisapp
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
+import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import mx.edu.itl.polarisapp.lista.CustomListAdapter
 import mx.edu.itl.polarisapp.lista.ItemModel
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 class EventosActivity : AppCompatActivity() {
     private lateinit var requestQueue : RequestQueue
     private lateinit var listView : ListView
+    private lateinit var adapter : CustomListAdapter
+    private lateinit var tituloEvento : String
+    private  var posicionElementoSeleccionado : Int = 0
 
     val eventosLista: MutableList<ItemModel> = mutableListOf()
+    val urlEliminar = "https://polarisappnavegator.000webhostapp.com/eliminarEvento.php"
     override fun onCreate ( savedInstanceState: Bundle? ) {
         super.onCreate( savedInstanceState )
         setContentView( R.layout.activity_eventos )
         requestQueue = Volley.newRequestQueue( this )
-        leerEventos()
+        listView = findViewById( R.id.listEventos )
+        //leerEventos()
 
     }
 
@@ -34,7 +48,45 @@ class EventosActivity : AppCompatActivity() {
         val intent = Intent( this,MainActivity::class.java )
          startActivity ( intent )
     }
+    fun btnEliminar ( view:View ){
+        val stringRequest = object: StringRequest(
+            Method.POST,
+            urlEliminar,
+            Response.Listener { response ->
+                Toast.makeText(this, "Evento "+ tituloEvento+ " eliminado con éxito", Toast.LENGTH_SHORT).show()
 
+                // Puedes realizar acciones adicionales después de eliminar el evento, si es necesario
+
+            },
+            Response.ErrorListener { error->
+                Toast.makeText(this, "Error al intentar eliminar evento", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["titulo"] = tituloEvento
+                return params
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["Content-Type"] = "application/x-www-form-urlencoded"
+                return params
+            }
+        }
+
+        requestQueue.add(stringRequest)
+        eventosLista.removeAt(posicionElementoSeleccionado)
+        adapter.notifyDataSetChanged()
+
+
+    }
+    override fun onResume () {
+        super.onResume()
+        leerEventos()
+    }
     fun btnAgregar ( view:View ){
         val intent = Intent ( this,AgregarEventos::class.java )
         startActivity ( intent )
@@ -43,7 +95,9 @@ class EventosActivity : AppCompatActivity() {
 //        listView.adapter = adapter
     }
 
+    @OptIn(ExperimentalEncodingApi::class)
     fun leerEventos (){
+        var ultimoElementoSeleccionado: View? = null
         val urlLeer = "https://polarisappnavegator.000webhostapp.com/fetch.php"
         val jsonObject= JsonArrayRequest(
             Request.Method.GET,
@@ -54,6 +108,8 @@ class EventosActivity : AppCompatActivity() {
                 for (i in 0 until response.length()){
                     val evento = response.getJSONObject(i)
 
+
+
                     val titulo = evento.getString("titulo")
                     val descripcion = evento.getString ( "descripcion" )
                     val lugar = evento.getString( "lugar" )
@@ -61,14 +117,16 @@ class EventosActivity : AppCompatActivity() {
                     val horaA = evento.getString( "horaA" )
                     val horaC = evento.getString( "horaC" )
                     val imagen = evento.getString ( "imagen" )
+                    //val imgEnBytes = Base64.decode(evento.getString("imagen"),0,evento.getString("imagen").length)
+                    //val bitmap: Bitmap? = BitmapFactory.decodeByteArray(imgEnBytes, 0, imgEnBytes.size)
 
                     val eventoObjeto = ItemModel(imagen,titulo,fecha,horaA,horaC,lugar,descripcion)
                     eventosLista.add(eventoObjeto)
                     //mostrarAlertDialog("hola",eventosLista.get(0).getRecursoImg())
 
                 }
-                listView = findViewById( R.id.listEventos )
-                val adapter = CustomListAdapter(this,eventosLista)
+
+                adapter = CustomListAdapter(this,eventosLista)
 
                 listView.adapter = adapter
 
@@ -80,6 +138,22 @@ class EventosActivity : AppCompatActivity() {
 
         )
         requestQueue.add(jsonObject)
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val element:ItemModel = adapter.getItem(position) as ItemModel // The item that was clicked
+            // Restaurar el color de fondo del último elemento seleccionado
+            ultimoElementoSeleccionado?.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent))
+
+            // Establecer el color de fondo del nuevo elemento seleccionado
+            view.setBackgroundColor(ContextCompat.getColor(this, androidx.appcompat.R.color.material_grey_300))
+
+            // Actualizar el último elemento seleccionado
+            ultimoElementoSeleccionado = view
+
+            posicionElementoSeleccionado = position
+            tituloEvento = element.txtTitulo
+            Toast.makeText(this, posicionElementoSeleccionado.toString()+" Evento seleccionado: "+ tituloEvento, Toast.LENGTH_SHORT).show()
+
+        }
     }
     private fun mostrarAlertDialog(titulo: String, mensaje: String) {
         val builder = AlertDialog.Builder(this)

@@ -992,7 +992,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
                 //Toast.makeText( this,"tam: "+nodosConexiones.size,Toast.LENGTH_SHORT).show()
                 val distancia= nodoUbicacionActual.calcularDistancia ( nodo );
                 //Toast.makeText (this,"vuelta:"+i+"distancia = " + distancia, Toast.LENGTH_SHORT ).show ()
-                if ( distancia<1 ) {
+                if ( distancia<8 ) {
                     graph.add ( Edge ( nodoUbicacionActual,nodo,nodoUbicacionActual.calcularDistancia ( nodo ).toInt () ) )
                 }
             }

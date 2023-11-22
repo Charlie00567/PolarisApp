@@ -58,10 +58,10 @@ class AgregarEventos : AppCompatActivity() {
         val lugar = edtTxtLugar.text.toString()
         val descripcion = edtTxtDescripcion.text.toString()
         val nombreImagen = imgView.getTag(imgView.id).toString()
-        //val nombreImagen
+
         crearEvento(titulo,fecha,horaInicio,horaFin,lugar,descripcion,nombreImagen)
-//        val intent = Intent ( this, EventosActivity::class.java )
-//        startActivity ( intent)
+        val intent = Intent ( this, EventosActivity::class.java )
+        startActivity ( intent)
     }
 
     private fun crearEvento(titulo: String, fecha: String, horaA: String, horaC: String, lugar: String, descripcion: String, imagen:String) {

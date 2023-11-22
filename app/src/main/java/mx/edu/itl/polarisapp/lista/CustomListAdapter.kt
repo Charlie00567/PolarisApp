@@ -50,7 +50,7 @@ class CustomListAdapter ( contexto : Context, elementos : List<ItemModel> ) : Ba
         var txtLugar : TextView = view.findViewById( R.id.txtLugar )
         var txtDescripcion : TextView = view.findViewById( R.id.txtDescripcion )
 
-        Glide.with(context).load(items.get( position ).getRecursoImg()).into(imagenEvento)
+        imagenEvento.setImageResource( R.drawable.eventosdefault )
 
         txtTitulo.setText( items.get( position ).getTitulo() )
         txtFecha.setText( items.get( position ).getFecha() )
