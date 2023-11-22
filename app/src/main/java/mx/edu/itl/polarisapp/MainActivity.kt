@@ -740,9 +740,10 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
             //Si el usuario no selecciono origen, automaticamente tomara la ubicacion
             //actual como origen
-            if( textoSeleccionadoOrigen.equals( "" ) ) {
-                textoSeleccionadoOrigen= "Ubicacion actual"
-            }
+
+//            if( textoSeleccionadoOrigen.equals( "" ) ) {
+//                textoSeleccionadoOrigen= "Ubicacion actual"
+//            }
 
         }
 
@@ -979,11 +980,10 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         }
         // Origen diferente a la ubicacion actual o a una cadena vacia, por lo tanto el usuario
         //parte desde un edificio
-        if( !textoSeleccionadoOrigen.equals ( "Ubicacion actual" ) || !textoSeleccionadoOrigen.equals ( "") ){
+        if( textoSeleccionadoOrigen.equals ( "Ubicacion actual" ) || textoSeleccionadoOrigen.isNullOrEmpty () ){
 
-            val result = findShortestPath(graph,origen ( textoSeleccionadoOrigen!! )!!,destino ( textoSeleccionadoDestino!! )!! )
-            createPolylines( result.shortestPath() )
-        } else {
+
+
             // Origen es igual a la ubicacion actual, por lo tanto se crea un nuevo nodo
             // Para la ubicacion
             val nodoUbicacionActual= Nodo ( "Ubicacion actual", "ubi",LatLng ( ubicacionActualLat,ubicacionActualLong ) )
@@ -992,7 +992,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
                 //Toast.makeText( this,"tam: "+nodosConexiones.size,Toast.LENGTH_SHORT).show()
                 val distancia= nodoUbicacionActual.calcularDistancia ( nodo );
                 //Toast.makeText (this,"vuelta:"+i+"distancia = " + distancia, Toast.LENGTH_SHORT ).show ()
-                if ( distancia<5 ) {
+                if ( distancia<1 ) {
                     graph.add ( Edge ( nodoUbicacionActual,nodo,nodoUbicacionActual.calcularDistancia ( nodo ).toInt () ) )
                 }
             }
@@ -1000,6 +1000,9 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             val result = findShortestPath ( graph, nodoUbicacionActual ,
                 destino( textoSeleccionadoDestino!! ) !!
             )
+            createPolylines( result.shortestPath() )
+        } else {
+            val result = findShortestPath(graph,origen ( textoSeleccionadoOrigen!! )!!,destino ( textoSeleccionadoDestino!! )!! )
             createPolylines( result.shortestPath() )
         }
 
@@ -1062,6 +1065,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         map?.setOnMarkerClickListener ( GoogleMap.OnMarkerClickListener { marker:Marker->
             nombreMarcador = marker.title
             autotextviewDestino.setText ( nombreMarcador )
+            textoSeleccionadoDestino = nombreMarcador
             marker.showInfoWindow ()
             //Metodo para dirigir la camara al lugar elegido
             map?.moveCamera( CameraUpdateFactory.newLatLngZoom ( marker.position,18f ) )
@@ -1078,7 +1082,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         placeNode.setParent( anchorNode )
         curretLocation?.let{
             val latLng = LatLng( it.latitude, it.longitude ) //Probar con posicion de place
-            placeNode.localPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )//Probar con world position
+            placeNode.worldPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )//Probar con world position
 
         }
     }
@@ -1125,8 +1129,9 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     }
     //----------------------------------------------------------------------------------------------
     //Metodo para abrir el menu de los eventos
-    fun fabEventos ( view: View ){
-
+    fun fabEventosClick ( view: View ){
+        val intent = Intent ( this, EventosActivity::class.java )
+        startActivity ( intent )
     }
 
 

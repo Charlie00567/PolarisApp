@@ -2,32 +2,35 @@ package mx.edu.itl.polarisapp.lista
 
 class ItemModel {
 
-    var imageRscId : Int = 0
+    var imageRscId : String =""
     var txtTitulo : String = ""
     var txtFecha : String = ""
-    var txtHorario : String = ""
+    var txtHoraA : String = ""
+    var txtHoraC : String = ""
     var txtLugar : String = ""
     var txtDescripcion : String = ""
 
     constructor(
-        imageRscId: Int,
+        imageRscId: String,
         txtTitulo: String,
         txtFecha: String,
-        txtHorario: String,
+        txtHoraA: String,
+        txtHoraC : String,
         txtLugar: String,
         txtDescripcion: String
     ) {
         this.imageRscId = imageRscId
         this.txtTitulo = txtTitulo
         this.txtFecha = txtFecha
-        this.txtHorario = txtHorario
+        this.txtHoraA = txtHoraA
+        this.txtHoraC = txtHoraC
         this.txtLugar = txtLugar
         this.txtDescripcion = txtDescripcion
     }
 
     //----------------------------------------------------------------------------------------------
 
-    fun getRecursoImg() : Int {
+    fun getRecursoImg() : String {
         return imageRscId
     }
 
@@ -39,8 +42,8 @@ class ItemModel {
         return txtFecha
     }
 
-    fun getHorario() : String {
-        return txtHorario
+    fun getHoraA() : String {
+        return txtHoraA
     }
 
     fun getLugar() : String {
@@ -49,5 +52,8 @@ class ItemModel {
 
     fun getDescripcion() : String {
         return txtDescripcion
+    }
+    fun getHoraC() : String {
+        return txtHoraC
     }
 }

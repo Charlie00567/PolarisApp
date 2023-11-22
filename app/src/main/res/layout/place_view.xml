@@ -5,15 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/pin"
+        android:layout_width="94dp"
+        android:layout_height="66dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/pin_full_color"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.544"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.003" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvPlaceName"
@@ -25,10 +28,10 @@
         android:shadowRadius="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView"
-        app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
-        tools:text="This is place name"/>
+        app:layout_constraintEnd_toEndOf="@+id/pin"
+        app:layout_constraintStart_toStartOf="@+id/pin"
+        app:layout_constraintTop_toBottomOf="@+id/pin"
+        tools:text="This is place name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

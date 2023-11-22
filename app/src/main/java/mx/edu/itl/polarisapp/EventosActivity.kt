@@ -1,13 +1,95 @@
 package mx.edu.itl.polarisapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ListView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import mx.edu.itl.polarisapp.lista.CustomListAdapter
+import mx.edu.itl.polarisapp.lista.ItemModel
 
 class EventosActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_eventos)
+    private lateinit var requestQueue : RequestQueue
+    private lateinit var listView : ListView
+
+    val eventosLista: MutableList<ItemModel> = mutableListOf()
+    override fun onCreate ( savedInstanceState: Bundle? ) {
+        super.onCreate( savedInstanceState )
+        setContentView( R.layout.activity_eventos )
+        requestQueue = Volley.newRequestQueue( this )
+        leerEventos()
+
     }
+
+    fun regresarMenu ( view : View){
+
+        val intent = Intent( this,MainActivity::class.java )
+         startActivity ( intent )
+    }
+
+    fun btnAgregar ( view:View ){
+        val intent = Intent ( this,AgregarEventos::class.java )
+        startActivity ( intent )
+//        val adapter = CustomListAdapter(this,eventosLista)
+//        listView = findViewById( R.id.listEventos )
+//        listView.adapter = adapter
+    }
+
+    fun leerEventos (){
+        val urlLeer = "https://polarisappnavegator.000webhostapp.com/fetch.php"
+        val jsonObject= JsonArrayRequest(
+            Request.Method.GET,
+            urlLeer,null,
+            Response.Listener { response->
+                Toast.makeText(this,"Se recibio",Toast.LENGTH_LONG).show()
+
+                for (i in 0 until response.length()){
+                    val evento = response.getJSONObject(i)
+
+                    val titulo = evento.getString("titulo")
+                    val descripcion = evento.getString ( "descripcion" )
+                    val lugar = evento.getString( "lugar" )
+                    val fecha = evento.getString( "fecha" )
+                    val horaA = evento.getString( "horaA" )
+                    val horaC = evento.getString( "horaC" )
+                    val imagen = evento.getString ( "imagen" )
+
+                    val eventoObjeto = ItemModel(imagen,titulo,fecha,horaA,horaC,lugar,descripcion)
+                    eventosLista.add(eventoObjeto)
+                    //mostrarAlertDialog("hola",eventosLista.get(0).getRecursoImg())
+
+                }
+                listView = findViewById( R.id.listEventos )
+                val adapter = CustomListAdapter(this,eventosLista)
+
+                listView.adapter = adapter
+
+            },
+            Response.ErrorListener {error->
+                val errorMessage = "Error al recibir eventos: ${error.message}"
+                mostrarAlertDialog("Error", errorMessage)
+            }
+
+        )
+        requestQueue.add(jsonObject)
+    }
+    private fun mostrarAlertDialog(titulo: String, mensaje: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(titulo)
+        builder.setMessage(mensaje)
+        builder.setPositiveButton("Aceptar", null)
+        val dialog = builder.create()
+        dialog.show()
+    }
+
 }
 
 //public class MainActivity extends AppCompatActivity {
