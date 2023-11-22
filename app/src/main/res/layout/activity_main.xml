@@ -10,9 +10,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/arFragment"
         android:name="mx.edu.itl.polarisapp.ar.PlacesArFragment"
-        android:layout_width="412dp"
-        android:layout_height="414dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="468dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,12 +19,23 @@
         app:layout_constraintVertical_weight="7" />
 
     <AutoCompleteTextView
+        android:id="@+id/actvBuscador2"
+        android:layout_width="355dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/fondo_redondo"
+        android:hint="   ¿A donde quieres ir?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
         android:id="@+id/actvBuscador"
-        android:layout_width="390dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="4dp"
-        android:hint="Buscar..."
+        android:layout_width="355dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/fondo_redondo"
+        android:hint="   ¿De donde partes?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +43,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="406dp"
+        android:layout_width="match_parent"
         android:layout_height="364dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
@@ -47,17 +57,62 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/fabPrincipal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:clickable="true"
-        android:onClick="btnComenzarRuta"
-        app:backgroundTint="@android:color/holo_blue_dark"
+        android:onClick="fabPrincipalClick"
+        app:backgroundTint="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_compass" />
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/logo" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEventos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:onClick="fabEventosClick"
+        android:src="@drawable/eventos"
+        android:visibility="invisible"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/fabPrincipal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="36dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCrearRuta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:onClick="fabCrearRuta"
+        android:src="@drawable/ruta"
+        android:visibility="invisible"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/fabPrincipal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="36dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSalir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:onClick="fabSalirClick"
+        android:src="@android:drawable/ic_delete"
+        android:visibility="invisible"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/mapFragment"
+        app:layout_constraintEnd_toStartOf="@+id/fabPrincipal" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

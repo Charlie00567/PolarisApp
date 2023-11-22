@@ -13,13 +13,12 @@
         <item>Aulas - 15</item>
         <item>Lab. Química Cuantitativa - 16</item>
         <item>Sala Garcia Siler, Centro de mejora Continua - 17</item>
-        <item>Lab. Ingenería Mecánica - A-B</item>
-        <item>Ingeniería en Sistemas Computacionalesm Aulas - 19</item>
-        <item>Gestion Tecnológica y vinculacion - 2</item>
+        <item>Lab. Ingenería Mecánica 18 - A-B</item>
+        <item>Edificio-19</item>
+<!--        <item>Gestion Tecnológica y vinculacion - 2</item> -->
         <item>Lab. Ingeniría Electrónica - 20</item>
         <item>Lab. Multifuncional Metal - Mecánica - 21</item>
         <item>Lab. de Electrónica de Potencia, Lab. Electrónica Digital, Ciencias Básicas - 22</item>
-        <item>Sala de usos Multiples, Laboratorio CIM, Lab. Ingeniería Industrial, Comedor - CIM</item>
         <item>Mantenimiento - 24</item>
         <item>Lab. Ingeniería de Potencia - 25</item>
         <item>Lab. de Máquinas Eléctricas e Instrumentación - 26</item>
@@ -39,16 +38,85 @@
         <item>Gimnasio - 39</item>
         <item>Ingenieria Industrial - 4</item>
         <item>Gradas Deportivas - 40</item>
-        <item>Vestidores, Oficina Arte, Cultura, Gimnasio Pesas - 41</item>
-        <item>Gimnasio Auditorio, Actividades Extra Escolares - 42</item>
-        <item>Centro de Información - CI</item>
+        <item>Biblioteca</item>
+        <item>Campo de béisbol</item>
+        <item>Campo de fútbol</item>
         <item>Aulas - 5</item>
         <item>Aulas - 6</item>
         <item>Centro de Cómputo, Aulas - 7</item>
         <item>Aulas - 8</item>
         <item>Económico Administrativas, Aulas - 9</item>
+        <item>Entrada 2</item>
+        <item>Comedor</item>
+        <item>Sala de usos Multiples</item>
+        <item>Laboratorio CIM</item>
+        <item>Lab. Ingeniería Industrial</item>
+        <item>Alberca</item>
+        <item>Cancha Basket principal</item>
+        <item>Atletismo</item>
+        <item>Kiosco</item>
+        <item>Cancha Basketball 2</item>
+        <item>Entrada 1</item>
 
 
+    </string-array>
+
+    <string-array name="edificiosOrigen">
+        <item>Ubicacion actual</item>
+        <item>Edificio Administrativo - 1-A</item>
+        <item>Edificio Administrativo - 1-B</item>
+        <item>Metal - Mecánica, Aulas - 10</item>
+        <item>Lab. Ingenieria Eléctrica - 11</item>
+        <item>Lab. Quimica Cualitativa - 12</item>
+        <item>Cafeteria - 13</item>
+        <item>Quimica - Bioquimica, Lab. Quimica Inorganica, Lab. Física - Química, Aulas - 14</item>
+        <item>Aulas - 15</item>
+        <item>Lab. Química Cuantitativa - 16</item>
+        <item>Sala Garcia Siler, Centro de mejora Continua - 17</item>
+        <item>Lab. Ingenería Mecánica 18 - A-B</item>
+        <item>Edificio-19</item>
+        <!--        <item>Gestion Tecnológica y vinculacion - 2</item> -->
+        <item>Lab. Ingeniría Electrónica - 20</item>
+        <item>Lab. Multifuncional Metal - Mecánica - 21</item>
+        <item>Lab. de Electrónica de Potencia, Lab. Electrónica Digital, Ciencias Básicas - 22</item>
+        <item>Mantenimiento - 24</item>
+        <item>Lab. Ingeniería de Potencia - 25</item>
+        <item>Lab. de Máquinas Eléctricas e Instrumentación - 26</item>
+        <item>Lab. de Mecatrónica y Control - 27</item>
+        <item>Lab. de Computo - AA</item>
+        <item>Lab. de Idiomas - 29</item>
+        <item>Oficinas Sindicales - 3</item>
+        <item>Lab. de Cómputo de Posgrado - 30</item>
+        <item>División de Estudios de Posgrado e Investigación - 31</item>
+        <item>Aulas - 32</item>
+        <item>Sala de Técnicos, Laboratorio de Físicas - 33</item>
+        <item>Aulas - 34</item>
+        <item>Recuros Materiales y Servicios - 35</item>
+        <item>Ingeniria Eléctrica - Electrónia - 36</item>
+        <item>Aulas - 37</item>
+        <item>Aulas - 38</item>
+        <item>Gimnasio - 39</item>
+        <item>Ingenieria Industrial - 4</item>
+        <item>Gradas Deportivas - 40</item>
+        <item>Biblioteca</item>
+        <item>Campo de béisbol</item>
+        <item>Campo de fútbol</item>
+        <item>Aulas - 5</item>
+        <item>Aulas - 6</item>
+        <item>Centro de Cómputo, Aulas - 7</item>
+        <item>Aulas - 8</item>
+        <item>Económico Administrativas, Aulas - 9</item>
+        <item>Entrada 2</item>
+        <item>Comedor</item>
+        <item>Sala de usos Multiples</item>
+        <item>Laboratorio CIM</item>
+        <item>Lab. Ingeniería Industrial</item>
+        <item>Alberca</item>
+        <item>Cancha Basket principal</item>
+        <item>Atletismo</item>
+        <item>Kiosco</item>
+        <item>Cancha Basketball 2</item>
+        <item>Entrada 1</item>
 
 
     </string-array>
