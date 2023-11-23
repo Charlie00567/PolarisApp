@@ -1,3 +1,6 @@
+/***************************************************************************************************
+                CustomAdapter.kt Última modificación: 21/Noviembre/2023
+ ***************************************************************************************************/
 package mx.edu.itl.polarisapp.lista
 
 import android.content.Context
@@ -22,19 +25,19 @@ class CustomListAdapter ( contexto : Context, elementos : List<ItemModel> ) : Ba
     init {
         inflater = LayoutInflater.from( context )
     }
-
+    //----------------------------------------------------------------------------------------------
     override fun getCount (): Int {
         return items.size
     }
-
+    //----------------------------------------------------------------------------------------------
     override fun getItem (position: Int): Any {
         return items.get( position )
     }
-
+    //----------------------------------------------------------------------------------------------
     override fun getItemId (position: Int): Long {
         return position.toLong()
     }
-
+    //----------------------------------------------------------------------------------------------
     override fun getView ( position: Int, convertView: View?, parent: ViewGroup ): View {
         var view = convertView
 
@@ -42,7 +45,7 @@ class CustomListAdapter ( contexto : Context, elementos : List<ItemModel> ) : Ba
             view = inflater.inflate(R.layout.elementos_eventos, parent, false)
         }
 
-
+        // se asignan los widgets a las variables para poderles asignar el contenido
         var imagenEvento : ImageView = view!!.findViewById( R.id.imgEvento )
         var txtTitulo : TextView = view.findViewById( R.id.txtTitulo )
         var txtFecha : TextView = view.findViewById( R.id.txtFecha )

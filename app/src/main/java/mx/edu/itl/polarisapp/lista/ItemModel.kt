@@ -1,3 +1,6 @@
+/***************************************************************************************************
+                    ItemModel.kt Última modificación: 21/Noviembre/2023
+ ***************************************************************************************************/
 package mx.edu.itl.polarisapp.lista
 
 class ItemModel {
@@ -9,7 +12,8 @@ class ItemModel {
     var txtHoraC : String = ""
     var txtLugar : String = ""
     var txtDescripcion : String = ""
-
+    //----------------------------------------------------------------------------------------------
+    //Constructor
     constructor(
         imageRscId: String,
         txtTitulo: String,
@@ -33,23 +37,23 @@ class ItemModel {
     fun getRecursoImg() : String {
         return imageRscId
     }
-
+    //----------------------------------------------------------------------------------------------
     fun getTitulo() : String {
         return txtTitulo
     }
-
+    //----------------------------------------------------------------------------------------------
     fun getFecha() : String {
         return txtFecha
     }
-
+    //----------------------------------------------------------------------------------------------
     fun getHoraA() : String {
         return txtHoraA
     }
-
+    //----------------------------------------------------------------------------------------------
     fun getLugar() : String {
         return  txtLugar
     }
-
+    //----------------------------------------------------------------------------------------------
     fun getDescripcion() : String {
         return txtDescripcion
     }
