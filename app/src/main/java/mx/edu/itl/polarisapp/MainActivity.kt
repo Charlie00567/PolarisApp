@@ -1,5 +1,5 @@
 /***************************************************************************************************
-                  MainActivity.kt Última modificación: 20/Noviembre/2023
+                  MainActivity.kt Última modificación: 22/Noviembre/2023
 ***************************************************************************************************/
 
 package mx.edu.itl.polarisapp
@@ -49,6 +49,7 @@ import mx.edu.itl.polarisapp.model.Nodo
 import mx.edu.itl.polarisapp.model.Place
 import mx.edu.itl.polarisapp.model.findShortestPath
 import com.google.ar.sceneform.Node
+import mx.edu.itl.polarisapp.lista.ItemModel
 
 class MainActivity : AppCompatActivity (), SensorEventListener {
 
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     // Declarar los AutoCompleteTextView como propiedad de la clase
     private lateinit var autotextviewOrigen : AutoCompleteTextView
     private lateinit var autotextviewDestino : AutoCompleteTextView
+    val places: MutableList<Place> = mutableListOf ()
     //Nodos de lugares
     val nodoEdificio19 = Nodo ( "Edificio-19", "Edificio-19", LatLng ( 25.533261,-103.435979 ) )
     val nodoLabComputo = Nodo ( "Lab. de Computo - AA","Lab. de Computo - AA", LatLng ( 25.532719,-103.435974 ) )
@@ -741,9 +743,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             //Si el usuario no selecciono origen, automaticamente tomara la ubicacion
             //actual como origen
 
-//            if( textoSeleccionadoOrigen.equals( "" ) ) {
-//                textoSeleccionadoOrigen= "Ubicacion actual"
-//            }
+
 
         }
 
@@ -903,7 +903,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Añade lugares que se ubicaran en el mapa y en el AR
     private fun addPlaces( anchorNode: AnchorNode ){
-        val places = listOf(
+          val placesAux = listOf(
             Place ( nodoEdificio19.nombre, LatLng ( nodoEdificio19.getLat (), nodoEdificio19.getLong () ) ),
             Place ( nodoLabComputo.nombre, LatLng ( nodoLabComputo.getLat (), nodoLabComputo.getLong () ) ),
             Place ( nodoEntrada2.nombre, LatLng ( nodoEntrada2.getLat (), nodoEntrada2.getLong () ) ),
@@ -956,11 +956,12 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             Place ( nodo1A.nombre, LatLng ( nodo1A.getLat (), nodo1A.getLong () ) ),
             Place ( nodo1B.nombre, LatLng ( nodo1B.getLat (), nodo1B.getLong () ) ),
             Place ( nodoGradas.nombre, LatLng ( nodoGradas.getLat (), nodoGradas.getLong () ) ),
-            Place ( nodoEntrada1.nombre, LatLng ( nodoEntrada1.getLat (), nodoEntrada1.getLong () ) ),
+            Place ( nodoEntrada1.nombre, LatLng ( nodoEntrada1.getLat (), nodoEntrada1.getLong () ) )
         )
-        places.forEach { place ->
+        placesAux.forEach { place ->
+            places.add( place )
             addPlaceToMap( place )
-            addPlaceToAr( place, anchorNode )
+
         }
         //createPolylines(result.shortestPath())
 
@@ -978,8 +979,8 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             Toast.makeText ( this, "No has seleccionado un destino", Toast.LENGTH_LONG ).show ()
             return
         }
-        // Origen diferente a la ubicacion actual o a una cadena vacia, por lo tanto el usuario
-        //parte desde un edificio
+        // Origen igual a la ubicacion actual o a una cadena vacia, por lo tanto el usuario
+        //parte desde su ubicacion actual
         if( textoSeleccionadoOrigen.equals ( "Ubicacion actual" ) || textoSeleccionadoOrigen.isNullOrEmpty () ){
 
 
@@ -1001,6 +1002,8 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
                 destino( textoSeleccionadoDestino!! ) !!
             )
             createPolylines( result.shortestPath() )
+            //Si el origen es diferente a la ubicaciona actual, tomara la ubicacion
+            //del edificio
         } else {
             val result = findShortestPath(graph,origen ( textoSeleccionadoOrigen!! )!!,destino ( textoSeleccionadoDestino!! )!! )
             createPolylines( result.shortestPath() )
@@ -1062,6 +1065,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
                 tag = place
             }
         }
+        //Metodo para agregar ubn listener a los pines en el mapa
         map?.setOnMarkerClickListener ( GoogleMap.OnMarkerClickListener { marker:Marker->
             nombreMarcador = marker.title
             autotextviewDestino.setText ( nombreMarcador )
@@ -1069,6 +1073,11 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             marker.showInfoWindow ()
             //Metodo para dirigir la camara al lugar elegido
             map?.moveCamera( CameraUpdateFactory.newLatLngZoom ( marker.position,18f ) )
+            //Agrega la imagen de realidad aumentada a la camara
+            for ( place in places ){
+                if ( place.name.equals ( nombreMarcador ) )
+                    addPlaceToAr( place,anchorNode!! )
+            }
             true
         })
 
@@ -1081,8 +1090,9 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         val placeNode = PlaceNode( this, place )
         placeNode.setParent( anchorNode )
         curretLocation?.let{
-            val latLng = LatLng( it.latitude, it.longitude ) //Probar con posicion de place
-            placeNode.worldPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )//Probar con world position
+            val latLng = LatLng( place.latLng.latitude, place.latLng.longitude ) //Probar con posicion de place
+            placeNode.localPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )//Probar con world position
+
 
         }
     }

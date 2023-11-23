@@ -1,3 +1,6 @@
+/***************************************************************************************************
+                AgregarEventos.kt Última modificación: 22/Noviembre/2023
+ ***************************************************************************************************/
 package mx.edu.itl.polarisapp
 
 import android.content.pm.PackageManager
@@ -24,6 +27,8 @@ import com.android.volley.toolbox.Volley
 import kotlin.random.Random
 
 class AgregarEventos : AppCompatActivity() {
+    //----------------------------------------------------------------------------------------------
+    //variables que se usaran para el activity
     private lateinit var btnSeleccionarImagen : Button
     private lateinit var imgView : ImageView
     private lateinit var edtTxtTitulo : EditText
@@ -33,9 +38,11 @@ class AgregarEventos : AppCompatActivity() {
     private lateinit var edtTxtLugar : EditText
     private lateinit var edtTxtDescripcion : EditText
     private lateinit var requestQueue : RequestQueue
-
+    //URL del archivo php que va a lograr guardar informacion en la
+    //Base de datos
     val urlGuardar = "https://polarisappnavegator.000webhostapp.com/saveEvento.php"
 
+    //----------------------------------------------------------------------------------------------
     override fun onCreate ( savedInstanceState: Bundle? ) {
         super.onCreate( savedInstanceState )
         setContentView( R.layout.activity_agregar_eventos )
@@ -50,21 +57,25 @@ class AgregarEventos : AppCompatActivity() {
         requestQueue = Volley.newRequestQueue ( this )
 
     }
+    //----------------------------------------------------------------------------------------------
+    //Metodo para mandar a llamar la funcion para agregar los  eventos a la base de datos
     fun btnAgregarEvento ( view : View ){
-        val titulo = edtTxtTitulo.text.toString()
-        val fecha = edtTxtFecha.text.toString()
-        val horaInicio = edtTxtHoraInicio.text.toString()
-        val horaFin = edtTxtHoraFin.text.toString()
-        val lugar = edtTxtLugar.text.toString()
-        val descripcion = edtTxtDescripcion.text.toString()
-        val nombreImagen = imgView.getTag(imgView.id).toString()
+        val titulo = edtTxtTitulo.text.toString ()
+        val fecha = edtTxtFecha.text.toString ()
+        val horaInicio = edtTxtHoraInicio.text.toString ()
+        val horaFin = edtTxtHoraFin.text.toString ()
+        val lugar = edtTxtLugar.text.toString ()
+        val descripcion = edtTxtDescripcion.text.toString ()
+        val nombreImagen = imgView.getTag(imgView.id).toString ()
 
-        crearEvento(titulo,fecha,horaInicio,horaFin,lugar,descripcion,nombreImagen)
+        crearEvento ( titulo,fecha,horaInicio,horaFin,lugar,descripcion,nombreImagen )
         val intent = Intent ( this, EventosActivity::class.java )
-        startActivity ( intent)
+        startActivity ( intent )
     }
-
-    private fun crearEvento(titulo: String, fecha: String, horaA: String, horaC: String, lugar: String, descripcion: String, imagen:String) {
+    //----------------------------------------------------------------------------------------------
+    //Funcion la cual agrega los eventos a la base de datos
+    private fun crearEvento( titulo: String, fecha: String, horaA: String, horaC: String, lugar: String, descripcion: String, imagen:String ) {
+        //Se hace la solicitud POST para guardar los datos
         val stringRequest = object: StringRequest(
             Method.POST,
             urlGuardar,
@@ -81,47 +92,51 @@ class AgregarEventos : AppCompatActivity() {
            override fun getParams(): Map<String, String> {
                 val params: MutableMap<String, String> = HashMap()
 
-                // Aquí se agregan los pares
-                params.put("titulo",titulo)
-                params.put("descripcion",descripcion)
-                params.put("lugar",lugar)
-                params.put("fecha",fecha)
-                params.put("horaA",horaA)
-                params.put("horaC",horaC)
-                params.put("imagen",imagen)
+                // Aquí se agregan los pares de la informacion
+                params.put( "titulo",titulo )
+                params.put( "descripcion",descripcion )
+                params.put( "lugar",lugar )
+                params.put( "fecha",fecha )
+                params.put( "horaA",horaA )
+                params.put( "horaC",horaC )
+                params.put( "imagen",imagen )
                 return params
             }
-            @Throws(AuthFailureError::class)
+            @Throws( AuthFailureError::class )
             override fun getHeaders(): Map<String, String> {
                 val params: MutableMap<String, String> = HashMap()
                 params["Content-Type"] = "application/x-www-form-urlencoded"
                 return params
             }
         }
-
-        requestQueue.add(stringRequest)
+        //Se mandan los datos a la consulta
+        requestQueue.add( stringRequest )
 
     }
-
+    //----------------------------------------------------------------------------------------------
     fun seleccionarImg ( view : View ){
         requestPermission()
     }
+    //----------------------------------------------------------------------------------------------
+    //Metodo para seleccionar imagen desde la galeria
     private val startForActivityGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ){result ->
         if( result.resultCode == Activity.RESULT_OK ){
             val data = result.data?.data
-            imgView.setTag(imgView.id,"imagen"+ Random.nextLong(999))
+            imgView.setTag( imgView.id,"imagen"+ Random.nextLong( 999 ) )
             imgView.setImageURI ( data )
         }
 
     }
+    //----------------------------------------------------------------------------------------------
     private fun seleccionarImagen() {
         val intent = Intent ( Intent.ACTION_GET_CONTENT )
         intent.type = "image/*"
         startForActivityGallery.launch ( intent )
     }
-
+    //----------------------------------------------------------------------------------------------
+    //Metodo para solicitar permiso de acceso a la galeria
     private fun requestPermission() {
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
           when{
@@ -130,29 +145,25 @@ class AgregarEventos : AppCompatActivity() {
                 this,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
-                seleccionarImagen()
+                seleccionarImagen ()
             }
-              else -> requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+              else -> requestPermissionLauncher.launch ( Manifest.permission.READ_EXTERNAL_STORAGE )
           }
         } else{
-            seleccionarImagen()
+            seleccionarImagen ()
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
+        ActivityResultContracts.RequestPermission ()
     ){isGranted ->
         if ( isGranted ){
-            seleccionarImagen()
+            seleccionarImagen ()
         } else {
             Toast.makeText ( this, "Necesitas activar los permisos", Toast.LENGTH_SHORT ).show ()
         }
 
     }
 
-//    fun agregarEvento ( view: View){
-//
-//        val intent = Intent ( this, EventosActivity::class.java )
-//        startActivity ( intent)
-//    }
+
 }
