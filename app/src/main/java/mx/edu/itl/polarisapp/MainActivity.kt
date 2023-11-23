@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     // Declarar los AutoCompleteTextView como propiedad de la clase
     private lateinit var autotextviewOrigen : AutoCompleteTextView
     private lateinit var autotextviewDestino : AutoCompleteTextView
+    private lateinit var placeNode : PlaceNode
     val places: MutableList<Place> = mutableListOf ()
     //Nodos de lugares
     val nodoEdificio19 = Nodo ( "Edificio-19", "Edificio-19", LatLng ( 25.533261,-103.435979 ) )
@@ -975,7 +976,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         val ubicacionActualLat = curretLocation!!.latitude
         val ubicacionActualLong = curretLocation!!.longitude
         //Validación para que el usuario seleccione un Destino forzosamente
-        if ( textoSeleccionadoDestino.equals ("" ) ){
+        if ( textoSeleccionadoDestino.isNullOrEmpty() ){
             Toast.makeText ( this, "No has seleccionado un destino", Toast.LENGTH_LONG ).show ()
             return
         }
@@ -1087,11 +1088,15 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Ubica el pin en el AR
     private fun addPlaceToAr ( place : Place, anchorNode : AnchorNode ) {
-        val placeNode = PlaceNode( this, place )
+
+
+        placeNode = PlaceNode( this, place )
+
         placeNode.setParent( anchorNode )
         curretLocation?.let{
-            val latLng = LatLng( place.latLng.latitude, place.latLng.longitude ) //Probar con posicion de place
-            placeNode.localPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )//Probar con world position
+
+            val latLng = LatLng ( it.latitude, it.longitude ) //Probar con posicion de place
+            placeNode.worldPosition = place.getPositionVector ( orientationAngles[ 0 ], latLng )//Probar con world position
 
 
         }
