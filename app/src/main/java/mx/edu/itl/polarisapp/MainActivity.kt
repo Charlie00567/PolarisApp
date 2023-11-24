@@ -35,6 +35,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.Dash
+import com.google.android.gms.maps.model.Dot
+import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -1002,7 +1005,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             //Si el origen es diferente a la ubicaciona actual, tomara la ubicacion
             //del edificio
         } else {
-            val result = findShortestPath ( graph,origen ( textoSeleccionadoOrigen!! )!!,destino ( textoSeleccionadoDestino!! )!! )
+            val result = findShortestPath ( graph,origen ( textoSeleccionadoOrigen!! )!!, destino ( textoSeleccionadoDestino!! )!! )
             createPolylines ( result.shortestPath() )
         }
 
@@ -1041,8 +1044,12 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         nodos.forEach { nodo ->
             polylineOptions.add ( nodo.coords )
         }
-
+        polylineOptions.width(5f).color ( ContextCompat.getColor ( this, R.color.linea ) )
         val polyline = map?.addPolyline ( polylineOptions )
+        val pattern=listOf(
+            Dot (), Gap ( 5f ), Dash ( 15f ), Gap ( 5f )
+        )
+        polyline?.pattern=pattern
     }
 
     //----------------------------------------------------------------------------------------------

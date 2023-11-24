@@ -131,19 +131,18 @@ class EventosActivity : AppCompatActivity () {
                     val imagen = evento.getString ( "imagen" )
 
 
-                    val eventoObjeto = ItemModel( imagen,titulo,fecha,horaA,horaC,lugar,descripcion )
+                    val eventoObjeto = ItemModel( imagen, titulo, fecha, horaA, horaC, lugar, descripcion )
                     eventosLista.add( eventoObjeto )
 
 
                 }
 
-                adapter = CustomListAdapter ( this,eventosLista )
+                adapter = CustomListAdapter ( this, eventosLista )
 
                 listView.adapter = adapter
 
             },
             Response.ErrorListener { error->
-                val errorMessage = "Error al recibir eventos: ${error.message}"
                 mostrarAlertDialog ( "Aviso", "No hay eventos disponibles" )
             }
 
