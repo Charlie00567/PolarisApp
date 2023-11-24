@@ -115,7 +115,7 @@ class EventosActivity : AppCompatActivity () {
             Request.Method.GET,
             urlLeer,null,
             Response.Listener { response->
-                Toast.makeText ( this,"Se recibio",Toast.LENGTH_LONG ).show ()
+
 
                 for ( i in 0 until response.length () ){
                     val evento = response.getJSONObject ( i )
@@ -144,7 +144,7 @@ class EventosActivity : AppCompatActivity () {
             },
             Response.ErrorListener { error->
                 val errorMessage = "Error al recibir eventos: ${error.message}"
-                mostrarAlertDialog ( "Error", errorMessage )
+                mostrarAlertDialog ( "Aviso", "No hay eventos disponibles" )
             }
 
         )
@@ -164,7 +164,7 @@ class EventosActivity : AppCompatActivity () {
 
             posicionElementoSeleccionado = position
             tituloEvento = element.txtTitulo
-            Toast.makeText( this, posicionElementoSeleccionado.toString ()+" Evento seleccionado: "+ tituloEvento, Toast.LENGTH_SHORT ).show ()
+            Toast.makeText( this, posicionElementoSeleccionado.toString () + " Evento seleccionado: " + tituloEvento, Toast.LENGTH_SHORT ).show ()
 
         }
     }

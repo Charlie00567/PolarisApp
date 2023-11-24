@@ -22,12 +22,12 @@ data class Edge( val nodo1 : Nodo, val nodo2 : Nodo, val distance : Int )
         }
         dist[ source ] = 0
 
-        while ( q.isNotEmpty() ) {
+        while ( q.isNotEmpty () ) {
             val u = q.minByOrNull { dist[ it ] ?: 0 }
             q.remove( u )
 
             if ( u == target ) {
-                break // Found shortest path to target
+                break
             }
             edges
                 .filter { it.nodo1 == u }
@@ -41,16 +41,16 @@ data class Edge( val nodo1 : Nodo, val nodo2 : Nodo, val distance : Int )
                 }
         }
 
-        return ShortestPathResult( prev, dist, source, target )
+        return ShortestPathResult ( prev, dist, source, target )
     }
 
     //----------------------------------------------------------------------------------------------
 
-    private fun findDistinctNodes( edges : List<Edge> ) : MutableSet<Nodo> {
+    private fun findDistinctNodes ( edges : List<Edge> ) : MutableSet<Nodo> {
         val nodos = mutableSetOf<Nodo>()
         edges.forEach {
-            nodos.add( it.nodo1 )
-            nodos.add( it.nodo2 )
+            nodos.add ( it.nodo1 )
+            nodos.add ( it.nodo2 )
         }
         return nodos
     }
@@ -64,18 +64,18 @@ data class Edge( val nodo1 : Nodo, val nodo2 : Nodo, val distance : Int )
 
         //------------------------------------------------------------------------------------------
 
-        fun shortestPath( from : Nodo = source, to : Nodo = target, list : List<Nodo> = emptyList() ) : List<Nodo> {
+        fun shortestPath ( from : Nodo = source, to : Nodo = target, list : List<Nodo> = emptyList() ) : List<Nodo> {
             val last = prev[ to ] ?: return if ( from == to ) {
                 list + to
             } else {
-                emptyList()
+                emptyList ()
             }
-            return shortestPath( from, last, list ) + to
+            return shortestPath ( from, last, list ) + to
         }
 
         //------------------------------------------------------------------------------------------
 
-        fun shortestDistance() : Int? {
+        fun shortestDistance () : Int? {
             val shortest = dist[ target ]
             if ( shortest == Integer.MAX_VALUE ) {
                 return null

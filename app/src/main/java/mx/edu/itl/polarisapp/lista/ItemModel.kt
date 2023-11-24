@@ -34,30 +34,30 @@ class ItemModel {
 
     //----------------------------------------------------------------------------------------------
 
-    fun getRecursoImg() : String {
+    fun getRecursoImg () : String {
         return imageRscId
     }
     //----------------------------------------------------------------------------------------------
-    fun getTitulo() : String {
+    fun getTitulo () : String {
         return txtTitulo
     }
     //----------------------------------------------------------------------------------------------
-    fun getFecha() : String {
+    fun getFecha () : String {
         return txtFecha
     }
     //----------------------------------------------------------------------------------------------
-    fun getHoraA() : String {
+    fun getHoraA () : String {
         return txtHoraA
     }
     //----------------------------------------------------------------------------------------------
-    fun getLugar() : String {
+    fun getLugar () : String {
         return  txtLugar
     }
     //----------------------------------------------------------------------------------------------
-    fun getDescripcion() : String {
+    fun getDescripcion () : String {
         return txtDescripcion
     }
-    fun getHoraC() : String {
+    fun getHoraC () : String {
         return txtHoraC
     }
 }
