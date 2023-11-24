@@ -1068,12 +1068,20 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             autotextviewDestino.setText ( nombreMarcador )
             textoSeleccionadoDestino = nombreMarcador
             marker.showInfoWindow ()
+            val nodoAux = Nodo ( "nodoAux", "nodoAux", LatLng ( curretLocation!!.latitude, curretLocation!!.longitude ) )
+            var distancia = 0.0
+            for ( nodo in nodosLugares ){
+                if ( nodo.nombre.equals ( nombreMarcador ) ){
+                     distancia = nodoAux.calcularDistancia ( nodo )
+                }
+            }
+
             //Metodo para dirigir la camara al lugar elegido
             map?.moveCamera( CameraUpdateFactory.newLatLngZoom ( marker.position,18f ) )
             //Agrega la imagen de realidad aumentada a la camara
             for ( place in places ) {
                 if ( place.name.equals ( nombreMarcador ) )
-                    addPlaceToAr( place,anchorNode!! )
+                    addPlaceToAr( distancia, place, anchorNode!! )
             }
             true
         })
@@ -1083,7 +1091,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     //----------------------------------------------------------------------------------------------
 
     //Ubica el pin en el AR
-    private fun addPlaceToAr ( place : Place, anchorNode : AnchorNode ) {
+    private fun addPlaceToAr ( distancia : Double, place : Place, anchorNode : AnchorNode ) {
 
 
         placeNode = PlaceNode( this, place )
@@ -1092,7 +1100,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         curretLocation?.let{
 
             val latLng = LatLng ( it.latitude, it.longitude ) //Probar con posicion de place
-            placeNode.localPosition = place.getPositionVector ( orientationAngles[ 0 ], latLng )//Probar con world position
+            placeNode.localPosition = place.getPositionVector ( distancia, orientationAngles[ 0 ], latLng )//Probar con world position
 
 
         }
@@ -1150,7 +1158,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     // Aqui solo se necesita llamar a las animaciones ya que este es el boton principal
     fun fabPrincipalClick ( view : View ) {
-        animarBoton()
+        animarBoton ()
     }
 
     //----------------------------------------------------------------------------------------------
@@ -1158,16 +1166,16 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     // Se llama a las animaciones y aparte al método para crear la ruta, la animacion cierra
     // los botones secundarios
     fun fabCrearRuta ( view : View ) {
-        animarBoton()
-        comenzarRuta()
+        animarBoton ()
+        comenzarRuta ()
     }
 
     //----------------------------------------------------------------------------------------------
 
     // El metodo finish se usa para cerrar la app
     fun fabSalirClick ( view : View ) {
-        animarBoton()
-        finish()
+        animarBoton ()
+        finish ()
     }
 
     //----------------------------------------------------------------------------------------------

@@ -15,13 +15,12 @@ class Place ( val name  : String,
 
     //----------------------------------------------------------------------------------------------
 
-    fun getPositionVector( azimuth: Float, latLng: LatLng ): Vector3{
-        val heading = latLng.sphericalHeading( this.latLng )
-        val r       = 8f
-        val x       = r * sin( azimuth + heading ).toFloat()
-        val y       = 0.5f
-        val z       = r * cos( azimuth + heading ).toFloat()
-        return Vector3( x, y, z )
+    fun getPositionVector( distancia : Double, azimuth: Float, latLng: LatLng ): Vector3 {
+        val heading = latLng.sphericalHeading(this.latLng)
+        val x = distancia * sin(azimuth + heading).toFloat()
+        val y = 0.5f
+        val z = distancia * cos(azimuth + heading).toFloat()
+        return Vector3(x.toFloat(), y, z.toFloat())
     }
 
     //----------------------------------------------------------------------------------------------
