@@ -1,5 +1,5 @@
 /***************************************************************************************************
-                  MainActivity.kt Última modificación: 20/Noviembre/2023
+                  MainActivity.kt Última modificación: 22/Noviembre/2023
 ***************************************************************************************************/
 
 package mx.edu.itl.polarisapp
@@ -49,6 +49,7 @@ import mx.edu.itl.polarisapp.model.Nodo
 import mx.edu.itl.polarisapp.model.Place
 import mx.edu.itl.polarisapp.model.findShortestPath
 import com.google.ar.sceneform.Node
+import mx.edu.itl.polarisapp.lista.ItemModel
 
 class MainActivity : AppCompatActivity (), SensorEventListener {
 
@@ -78,14 +79,16 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Variables de los sensores
     private lateinit var  sensorManager : SensorManager
-    private val accelerometerReading = FloatArray( 3 )
-    private val magnometerReading    = FloatArray( 3 )
-    private val rotatinMatrix        = FloatArray( 9 )
-    private val orientationAngles    = FloatArray( 3 )
+    private val accelerometerReading = FloatArray ( 3 )
+    private val magnometerReading    = FloatArray ( 3 )
+    private val rotatinMatrix        = FloatArray ( 9 )
+    private val orientationAngles    = FloatArray ( 3 )
 
     // Declarar los AutoCompleteTextView como propiedad de la clase
     private lateinit var autotextviewOrigen : AutoCompleteTextView
     private lateinit var autotextviewDestino : AutoCompleteTextView
+    private lateinit var placeNode : PlaceNode
+    val places: MutableList<Place> = mutableListOf ()
     //Nodos de lugares
     val nodoEdificio19 = Nodo ( "Edificio-19", "Edificio-19", LatLng ( 25.533261,-103.435979 ) )
     val nodoLabComputo = Nodo ( "Lab. de Computo - AA","Lab. de Computo - AA", LatLng ( 25.532719,-103.435974 ) )
@@ -694,18 +697,14 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         Edge ( nodoEntrada1, nodoConexion109, nodoEntrada1.calcularDistancia ( nodoConexion109 ).toInt () ),
         )
 
-
-
-   // val result = findShortestPath(graph,nodoEntrada2,nodoEdificio19)
-
     private var textoSeleccionadoOrigen : String? = null
     private var textoSeleccionadoDestino : String? = null
     private var nombreMarcador : String ? =null
     //----------------------------------------------------------------------------------------------
 
-    override fun onCreate( savedInstanceState: Bundle? ) {
-        super.onCreate( savedInstanceState )
-        setContentView( R.layout.activity_main )
+    override fun onCreate ( savedInstanceState: Bundle? ) {
+        super.onCreate ( savedInstanceState )
+        setContentView ( R.layout.activity_main )
 
         fabPrincipal = findViewById<FloatingActionButton> ( R.id.fabPrincipal )
         fabSalir = findViewById<FloatingActionButton> ( R.id.fabSalir )
@@ -713,10 +712,10 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         fabEventos = findViewById<FloatingActionButton> ( R.id.fabEventos )
 
         // Especificamos que animaciones se van a cargar con cada variable
-        animAbrir = AnimationUtils.loadAnimation( this, R.anim.fab_open )
-        animCerrar = AnimationUtils.loadAnimation( this, R.anim.fab_close )
-        girarAdelante = AnimationUtils.loadAnimation( this, R.anim.rotate_forward )
-        girarAtras = AnimationUtils.loadAnimation( this, R.anim.rotate_backward )
+        animAbrir = AnimationUtils.loadAnimation ( this, R.anim.fab_open )
+        animCerrar = AnimationUtils.loadAnimation ( this, R.anim.fab_close )
+        girarAdelante = AnimationUtils.loadAnimation ( this, R.anim.rotate_forward )
+        girarAtras = AnimationUtils.loadAnimation ( this, R.anim.rotate_backward )
 
         setUp()
 
@@ -735,22 +734,20 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         autotextviewOrigen.setOnItemClickListener { _, _, position, _ ->
             // Obtener el texto seleccionado de origen
 
-            textoSeleccionadoOrigen = adapterOrigen.getItem( position ).toString()
-            Toast.makeText( applicationContext, "Partes de: $textoSeleccionadoOrigen", Toast.LENGTH_SHORT ).show()
+            textoSeleccionadoOrigen = adapterOrigen.getItem ( position ).toString ()
+            Toast.makeText ( applicationContext, "Partes de: $textoSeleccionadoOrigen", Toast.LENGTH_SHORT ).show ()
 
             //Si el usuario no selecciono origen, automaticamente tomara la ubicacion
             //actual como origen
 
-//            if( textoSeleccionadoOrigen.equals( "" ) ) {
-//                textoSeleccionadoOrigen= "Ubicacion actual"
-//            }
+
 
         }
 
         //Texto del textView de a donde se dirige el usuario
         autotextviewDestino.setOnItemClickListener { _, _, position, _ ->
             // Obtener el texto seleccionado de Destino
-            textoSeleccionadoDestino = adapterDestino.getItem( position ).toString()
+            textoSeleccionadoDestino = adapterDestino.getItem ( position ).toString()
             Toast.makeText( applicationContext, "Te diriges a: $textoSeleccionadoDestino", Toast.LENGTH_SHORT ).show()
 
 
@@ -763,30 +760,30 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     //----------------------------------------------------------------------------------------------
 
     override fun onResume () {
-        super.onResume()
-        subscribeToSensors()
+        super.onResume ()
+        subscribeToSensors ()
     }
 
     //----------------------------------------------------------------------------------------------
 
     override fun onPause () {
-        super.onPause()
-        sensorManager.unregisterListener( this )
+        super.onPause ()
+        sensorManager.unregisterListener ( this )
     }
 
     //----------------------------------------------------------------------------------------------
 
     private fun setUp (){
-        setUpSensors()
-        setUpMap()
-        setUpAr()
+        setUpSensors ()
+        setUpMap ()
+        setUpAr ()
     }
 
     //----------------------------------------------------------------------------------------------
 
     //Configuracion de los sensores
     private fun setUpSensors (){
-        sensorManager = getSystemService()!!
+        sensorManager = getSystemService ()!!
 
     }
 
@@ -794,15 +791,15 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Lecturas de los sensores
     private fun subscribeToSensors (){
-        sensorManager.getDefaultSensor( Sensor.TYPE_MAGNETIC_FIELD )?.also {
+        sensorManager.getDefaultSensor ( Sensor.TYPE_MAGNETIC_FIELD )?.also {
             sensorManager.registerListener (
                 this,
                 it,
                 SensorManager.SENSOR_DELAY_NORMAL
             )
         }
-        sensorManager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER )?.also {
-            sensorManager.registerListener(
+        sensorManager.getDefaultSensor ( Sensor.TYPE_ACCELEROMETER )?.also {
+            sensorManager.registerListener (
                 this,
                 it,
                 SensorManager.SENSOR_DELAY_NORMAL
@@ -813,20 +810,20 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     //----------------------------------------------------------------------------------------------
 
     //Se obtienen las lecturas de los sensores
-    override fun onSensorChanged( event: SensorEvent? ) {
+    override fun onSensorChanged ( event: SensorEvent? ) {
         event ?: return
         if( event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD ){
-            System.arraycopy( event.values, 0,
+            System.arraycopy ( event.values, 0,
                 magnometerReading, 0, magnometerReading.size )
         } else if ( event.sensor.type == Sensor.TYPE_ACCELEROMETER )(
-            System.arraycopy( event.values, 0,
+            System.arraycopy ( event.values, 0,
                 accelerometerReading, 0, accelerometerReading.size )
         )
-        SensorManager.getRotationMatrix( rotatinMatrix,
+        SensorManager.getRotationMatrix ( rotatinMatrix,
             null,
             accelerometerReading,
             magnometerReading )
-        SensorManager.getOrientation( rotatinMatrix, orientationAngles )
+        SensorManager.getOrientation ( rotatinMatrix, orientationAngles )
 
     }
 
@@ -842,17 +839,17 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     //Se enfoca el mapa dependiendo de tu ubicacion, y se hace zoom alrededor de tu en 13m a la
     //redonda
     private fun setUpMap () {
-        mapFragment = supportFragmentManager.findFragmentById( R.id.mapFragment ) as SupportMapFragment
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient( this )
+        mapFragment = supportFragmentManager.findFragmentById ( R.id.mapFragment ) as SupportMapFragment
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient ( this )
         mapFragment.getMapAsync{ googleMap ->
             map = googleMap
             ifLocationIsGranted @SuppressLint( "MissingPermission" ) {
                 googleMap.isMyLocationEnabled = true
                 getCurrentLocation { location ->
                     curretLocation = location
-                    val latLng   = LatLng( location.latitude, location.longitude )
-                    val position = CameraPosition.fromLatLngZoom( latLng, 13f )
-                    googleMap.moveCamera( CameraUpdateFactory.newCameraPosition( position ) )
+                    val latLng   = LatLng ( location.latitude, location.longitude )
+                    val position = CameraPosition.fromLatLngZoom ( latLng, 13f )
+                    googleMap.moveCamera ( CameraUpdateFactory.newCameraPosition( position ) )
                 }
 
             }
@@ -864,8 +861,8 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     //----------------------------------------------------------------------------------------------
 
     //Se obtiene la ubicacion actual
-    @SuppressLint( "MissingPermission" )
-    private fun getCurrentLocation( onSuccess: ( Location ) -> Unit ){
+    @SuppressLint ( "MissingPermission" )
+    private fun getCurrentLocation ( onSuccess: ( Location ) -> Unit ){
         val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
             interval        = 100
             fastestInterval = 50
@@ -873,25 +870,25 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             maxWaitTime     = 100
         }
 
-        fusedLocationProviderClient.requestLocationUpdates( locationRequest, object: LocationCallback() {
-            override fun onLocationResult( locationResult : LocationResult ) {
-                super.onLocationResult( locationResult )
+        fusedLocationProviderClient.requestLocationUpdates ( locationRequest, object: LocationCallback () {
+            override fun onLocationResult ( locationResult : LocationResult ) {
+                super.onLocationResult ( locationResult )
                 val lastLocation = locationResult?.lastLocation
                 if( lastLocation != null && lastLocation.accuracy <= 15f ) {
-                    onSuccess.invoke( lastLocation )
-                    fusedLocationProviderClient.removeLocationUpdates( this )
+                    onSuccess.invoke ( lastLocation )
+                    fusedLocationProviderClient.removeLocationUpdates ( this )
                 }
             }
-        }, Looper.getMainLooper() )
+        }, Looper.getMainLooper () )
     }
 
     //----------------------------------------------------------------------------------------------
 
     //Se prepara el ARCore, y se añaden pines en el mapa que se podran ver
     private fun setUpAr () {
-        arFragment = supportFragmentManager.findFragmentById( R.id.arFragment ) as PlacesArFragment
+        arFragment = supportFragmentManager.findFragmentById ( R.id.arFragment ) as PlacesArFragment
         arFragment.setOnTapArPlaneListener{ hitResult, _, _ ->
-            val anchor = hitResult.createAnchor()
+            val anchor = hitResult.createAnchor ()
             anchorNode = AnchorNode( anchor )
             anchorNode?.setParent( arFragment.arSceneView.scene )
             anchorNode?.let{  addPlaces( it ) }
@@ -903,7 +900,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Añade lugares que se ubicaran en el mapa y en el AR
     private fun addPlaces( anchorNode: AnchorNode ){
-        val places = listOf(
+          val placesAux = listOf(
             Place ( nodoEdificio19.nombre, LatLng ( nodoEdificio19.getLat (), nodoEdificio19.getLong () ) ),
             Place ( nodoLabComputo.nombre, LatLng ( nodoLabComputo.getLat (), nodoLabComputo.getLong () ) ),
             Place ( nodoEntrada2.nombre, LatLng ( nodoEntrada2.getLat (), nodoEntrada2.getLong () ) ),
@@ -956,13 +953,14 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             Place ( nodo1A.nombre, LatLng ( nodo1A.getLat (), nodo1A.getLong () ) ),
             Place ( nodo1B.nombre, LatLng ( nodo1B.getLat (), nodo1B.getLong () ) ),
             Place ( nodoGradas.nombre, LatLng ( nodoGradas.getLat (), nodoGradas.getLong () ) ),
-            Place ( nodoEntrada1.nombre, LatLng ( nodoEntrada1.getLat (), nodoEntrada1.getLong () ) ),
+            Place ( nodoEntrada1.nombre, LatLng ( nodoEntrada1.getLat (), nodoEntrada1.getLong () ) )
         )
-        places.forEach { place ->
+        placesAux.forEach { place ->
+            places.add( place )
             addPlaceToMap( place )
-            addPlaceToAr( place, anchorNode )
+
         }
-        //createPolylines(result.shortestPath())
+
 
     }
 
@@ -974,13 +972,13 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
         val ubicacionActualLat = curretLocation!!.latitude
         val ubicacionActualLong = curretLocation!!.longitude
         //Validación para que el usuario seleccione un Destino forzosamente
-        if ( textoSeleccionadoDestino.equals ("" ) ){
+        if ( textoSeleccionadoDestino.isNullOrEmpty () ){
             Toast.makeText ( this, "No has seleccionado un destino", Toast.LENGTH_LONG ).show ()
             return
         }
-        // Origen diferente a la ubicacion actual o a una cadena vacia, por lo tanto el usuario
-        //parte desde un edificio
-        if( textoSeleccionadoOrigen.equals ( "Ubicacion actual" ) || textoSeleccionadoOrigen.isNullOrEmpty () ){
+        // Origen igual a la ubicacion actual o a una cadena vacia, por lo tanto el usuario
+        //parte desde su ubicacion actual
+        if ( textoSeleccionadoOrigen.equals ( "Ubicacion actual" ) || textoSeleccionadoOrigen.isNullOrEmpty () ){
 
 
 
@@ -990,20 +988,22 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             for( nodo in nodosConexiones ){
                 i++
                 //Toast.makeText( this,"tam: "+nodosConexiones.size,Toast.LENGTH_SHORT).show()
-                val distancia= nodoUbicacionActual.calcularDistancia ( nodo );
+                val distancia = nodoUbicacionActual.calcularDistancia ( nodo );
                 //Toast.makeText (this,"vuelta:"+i+"distancia = " + distancia, Toast.LENGTH_SHORT ).show ()
-                if ( distancia<1 ) {
+                if ( distancia<8 ) {
                     graph.add ( Edge ( nodoUbicacionActual,nodo,nodoUbicacionActual.calcularDistancia ( nodo ).toInt () ) )
                 }
             }
 
             val result = findShortestPath ( graph, nodoUbicacionActual ,
-                destino( textoSeleccionadoDestino!! ) !!
+                destino ( textoSeleccionadoDestino!! ) !!
             )
-            createPolylines( result.shortestPath() )
+            createPolylines ( result.shortestPath () )
+            //Si el origen es diferente a la ubicaciona actual, tomara la ubicacion
+            //del edificio
         } else {
-            val result = findShortestPath(graph,origen ( textoSeleccionadoOrigen!! )!!,destino ( textoSeleccionadoDestino!! )!! )
-            createPolylines( result.shortestPath() )
+            val result = findShortestPath ( graph,origen ( textoSeleccionadoOrigen!! )!!,destino ( textoSeleccionadoDestino!! )!! )
+            createPolylines ( result.shortestPath() )
         }
 
     }
@@ -1033,16 +1033,16 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Crea las líneas para trazar una ruta
     private fun createPolylines ( nodos : List<Nodo> ){
-        map?.clear()
-        map?.addMarker(MarkerOptions().position(nodos.get(0).coords).title(nodos.get(0).nombre))
-        map?.addMarker(MarkerOptions().position(nodos.get(nodos.size-1).coords).title(nodos.get(nodos.size-1).nombre))
+        map?.clear ()
+        map?.addMarker ( MarkerOptions ().position ( nodos.get( 0 ).coords).title ( nodos.get( 0 ).nombre ) )
+        map?.addMarker ( MarkerOptions ().position ( nodos.get( nodos.size-1 ).coords ).title ( nodos.get ( nodos.size-1 ).nombre ) )
 
-        val polylineOptions = PolylineOptions()
+        val polylineOptions = PolylineOptions ()
         nodos.forEach { nodo ->
-            polylineOptions.add( nodo.coords )
+            polylineOptions.add ( nodo.coords )
         }
 
-        val polyline = map?.addPolyline( polylineOptions )
+        val polyline = map?.addPolyline ( polylineOptions )
     }
 
     //----------------------------------------------------------------------------------------------
@@ -1050,9 +1050,9 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
     //Ubica el pin en el mapa
     private fun addPlaceToMap ( place : Place ) {
         map?.let { googleMap ->
-            val marker = googleMap.addMarker(
-                MarkerOptions()
-                    .position( place.latLng )
+            val marker = googleMap.addMarker (
+                MarkerOptions ()
+                    .position ( place.latLng )
                     .title   ( place.name   )
 
 
@@ -1062,6 +1062,7 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
                 tag = place
             }
         }
+        //Metodo para agregar ubn listener a los pines en el mapa
         map?.setOnMarkerClickListener ( GoogleMap.OnMarkerClickListener { marker:Marker->
             nombreMarcador = marker.title
             autotextviewDestino.setText ( nombreMarcador )
@@ -1069,6 +1070,11 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             marker.showInfoWindow ()
             //Metodo para dirigir la camara al lugar elegido
             map?.moveCamera( CameraUpdateFactory.newLatLngZoom ( marker.position,18f ) )
+            //Agrega la imagen de realidad aumentada a la camara
+            for ( place in places ) {
+                if ( place.name.equals ( nombreMarcador ) )
+                    addPlaceToAr( place,anchorNode!! )
+            }
             true
         })
 
@@ -1078,11 +1084,16 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Ubica el pin en el AR
     private fun addPlaceToAr ( place : Place, anchorNode : AnchorNode ) {
-        val placeNode = PlaceNode( this, place )
+
+
+        placeNode = PlaceNode( this, place )
+
         placeNode.setParent( anchorNode )
         curretLocation?.let{
-            val latLng = LatLng( it.latitude, it.longitude ) //Probar con posicion de place
-            placeNode.worldPosition = place.getPositionVector( orientationAngles[ 0 ], latLng )//Probar con world position
+
+            val latLng = LatLng ( it.latitude, it.longitude ) //Probar con posicion de place
+            placeNode.localPosition = place.getPositionVector ( orientationAngles[ 0 ], latLng )//Probar con world position
+
 
         }
     }

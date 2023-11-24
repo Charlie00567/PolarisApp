@@ -7,10 +7,10 @@
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/pin"
-        android:layout_width="94dp"
-        android:layout_height="66dp"
+        android:layout_width="110dp"
+        android:layout_height="97dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/pin_full_color"
+        android:src="@drawable/pin1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.544"

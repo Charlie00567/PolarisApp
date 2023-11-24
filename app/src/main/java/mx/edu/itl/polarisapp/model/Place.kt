@@ -17,7 +17,7 @@ class Place ( val name  : String,
 
     fun getPositionVector( azimuth: Float, latLng: LatLng ): Vector3{
         val heading = latLng.sphericalHeading( this.latLng )
-        val r       = -2f
+        val r       = 8f
         val x       = r * sin( azimuth + heading ).toFloat()
         val y       = 0.5f
         val z       = r * cos( azimuth + heading ).toFloat()
