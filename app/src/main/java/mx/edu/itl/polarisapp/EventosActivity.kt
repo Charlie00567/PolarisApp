@@ -41,10 +41,10 @@ class EventosActivity : AppCompatActivity () {
     val urlEliminar = "https://polarisappnavegator.000webhostapp.com/eliminarEvento.php"
     //----------------------------------------------------------------------------------------------
     override fun onCreate ( savedInstanceState: Bundle? ) {
-        super.onCreate( savedInstanceState )
-        setContentView( R.layout.activity_eventos )
-        requestQueue = Volley.newRequestQueue( this )
-        listView = findViewById( R.id.listEventos )
+        super.onCreate ( savedInstanceState )
+        setContentView ( R.layout.activity_eventos )
+        requestQueue = Volley.newRequestQueue ( this )
+        listView = findViewById ( R.id.listEventos )
         //leerEventos()
 
     }
@@ -52,7 +52,7 @@ class EventosActivity : AppCompatActivity () {
     //Regresa al modulo anterior
     fun regresarMenu ( view : View){
 
-        val intent = Intent( this,MainActivity::class.java )
+        val intent = Intent ( this,MainActivity::class.java )
          startActivity ( intent )
     }
     //----------------------------------------------------------------------------------------------
@@ -143,7 +143,6 @@ class EventosActivity : AppCompatActivity () {
 
             },
             Response.ErrorListener { error->
-                val errorMessage = "Error al recibir eventos: ${error.message}"
                 mostrarAlertDialog ( "Aviso", "No hay eventos disponibles" )
             }
 

@@ -1110,16 +1110,16 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
 
     //Verifica que esten activados los permisos de ubicacion
     private fun ifLocationIsGranted ( onIsGranted : () -> Unit ) {
-        val isCoarseGranted = ContextCompat.checkSelfPermission( this,
+        val isCoarseGranted = ContextCompat.checkSelfPermission ( this,
              Manifest.permission.ACCESS_COARSE_LOCATION ) == PackageManager.PERMISSION_GRANTED
-        val isfFineGranted  = ContextCompat.checkSelfPermission( this,
+        val isfFineGranted  = ContextCompat.checkSelfPermission ( this,
             Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED
 
         if( isCoarseGranted && isfFineGranted ){
-            onIsGranted.invoke()
+            onIsGranted.invoke ()
             return
         }
-        Toast.makeText( this, "La ubicacion no esta permitida", Toast.LENGTH_LONG ).show();
+        Toast.makeText( this, "La ubicacion no esta permitida", Toast.LENGTH_LONG ).show ();
     }
 
     //----------------------------------------------------------------------------------------------

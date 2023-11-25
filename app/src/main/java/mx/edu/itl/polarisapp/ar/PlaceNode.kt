@@ -21,17 +21,17 @@ class PlaceNode( val context : Context,
     //----------------------------------------------------------------------------------------------
 
     override fun onActivate () {
-        super.onActivate()
+        super.onActivate ()
         scene ?: return
         if( placeRenderable != null ){ return }
 
         ViewRenderable.builder()
-            .setView( context, R.layout.place_view )
-            .build()
+            .setView ( context, R.layout.place_view )
+            .build ()
             .thenAccept { renderable ->
                 setRenderable( renderable )
                 placeRenderable   = renderable
-                tvPlaceName       = renderable.view.findViewById( R.id.tvPlaceName )
+                tvPlaceName       = renderable.view.findViewById ( R.id.tvPlaceName )
                 tvPlaceName?.text = place.name
             }
     }

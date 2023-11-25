@@ -57,9 +57,9 @@ class CustomListAdapter ( contexto : Context, elementos : List<ItemModel> ) : Ba
 
         txtTitulo.setText ( items.get ( position ).getTitulo () )
         txtFecha.setText ( items.get ( position ).getFecha () )
-        txtHorario.setText( items.get ( position ).getHoraA () + "-"+items.get ( position ).getHoraC () )
-        txtLugar.setText( items.get ( position ).getLugar () )
-        txtDescripcion.setText( items. get ( position ).getDescripcion () )
+        txtHorario.setText ( items.get ( position ).getHoraA () + "-"+items.get ( position ).getHoraC () )
+        txtLugar.setText ( items.get ( position ).getLugar () )
+        txtDescripcion.setText ( items. get ( position ).getDescripcion () )
 
         return view
     }
