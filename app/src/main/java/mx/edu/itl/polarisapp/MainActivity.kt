@@ -987,9 +987,9 @@ class MainActivity : AppCompatActivity (), SensorEventListener {
             val nodoUbicacionActual= Nodo ( "Ubicacion actual", "ubi",LatLng ( ubicacionActualLat,ubicacionActualLong ) )
             for( nodo in nodosConexiones ){
                 i++
-                //Toast.makeText( this,"tam: "+nodosConexiones.size,Toast.LENGTH_SHORT).show()
+
                 val distancia = nodoUbicacionActual.calcularDistancia ( nodo );
-                //Toast.makeText (this,"vuelta:"+i+"distancia = " + distancia, Toast.LENGTH_SHORT ).show ()
+
                 if ( distancia<8 ) {
                     graph.add ( Edge ( nodoUbicacionActual,nodo,nodoUbicacionActual.calcularDistancia ( nodo ).toInt () ) )
                 }

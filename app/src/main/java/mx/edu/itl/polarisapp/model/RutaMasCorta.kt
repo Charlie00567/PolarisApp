@@ -9,8 +9,7 @@ data class Edge( val nodo1 : Nodo, val nodo2 : Nodo, val distance : Int )
 
     fun findShortestPath ( edges : List<Edge>, source : Nodo, target : Nodo ) : ShortestPathResult {
 
-        // Note: this implementation uses similar variable names as the algorithm given do.
-        // We found it more important to align with the algorithm than to use possibly more sensible naming.
+
 
         val dist = mutableMapOf<Nodo, Int>()
         val prev = mutableMapOf<Nodo, Nodo?>()
